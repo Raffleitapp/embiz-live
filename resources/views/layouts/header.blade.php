@@ -1,9 +1,13 @@
 @php
     $navLinks = [
         ['name' => 'Home', 'url' => url('/')],
-        ['name' => 'About', 'url' => url('/about')],
-        ['name' => 'Services', 'url' => url('/services')],
-        ['name' => 'Contact', 'url' => url('/contact')],
+        ['name' => 'Network', 'url' => url('/network')],
+        ['name' => 'Messages', 'url' => url('/messages')],
+        ['name' => 'Affiliate Partners', 'url' => url('/affiliates')],
+        // ['name' => 'About', 'url' => url('/about')],
+        // ['name' => 'Blog', 'url' => url('/blog')],
+        // ['name' => 'Login', 'url' => route('login')],
+        // ['name' => 'Register', 'url' => route('register')],
     ];
 @endphp
 
