@@ -20,14 +20,25 @@ Route::middleware('auth')->group(function () {
 Route::get('/home', function () {
     return view('home');
 })->name('home');
+
 Route::get('/about', function () {
     return view('about');
 })->name('about');
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+
 Route::get('/services', function () {
     return view('services');
 })->name('services');
+
+Route::get('/messages', function () {
+    return view('messages');
+})->name('messages');
+
+Route::get('/network', function () {
+    return view('network');
+})->name('network');
+
+Route::get('/affiliate', function () {
+    return view('affiliate');
+})->name('affiliate');
 
 require __DIR__ . '/auth.php';
