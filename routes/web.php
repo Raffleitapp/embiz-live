@@ -41,4 +41,8 @@ Route::get('/affiliate', function () {
     return view('affiliate');
 })->name('affiliate');
 
+Route::get('/user-profile', function () {
+    return view('user-profile');
+})->name('user-profile');
+
 require __DIR__ . '/auth.php';
