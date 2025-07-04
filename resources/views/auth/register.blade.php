@@ -1,42 +1,68 @@
-<x-guest-layout>
+@extends('layouts.guest')
+
+@section('content')
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <label for="name" class="block font-medium text-sm text-gray-700">{{ __('Name') }}</label>
+            <input id="name" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" />
+            @error('name')
+                <ul class="text-sm text-red-600 space-y-1 mt-2">
+                    @foreach ((array) $errors->get('name') as $message)
+                        <li>{{ $message }}</li>
+                    @endforeach
+                </ul>
+            @enderror
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label for="email" class="block font-medium text-sm text-gray-700">{{ __('Email') }}</label>
+            <input id="email" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" />
+            @error('email')
+                <ul class="text-sm text-red-600 space-y-1 mt-2">
+                    @foreach ((array) $errors->get('email') as $message)
+                        <li>{{ $message }}</li>
+                    @endforeach
+                </ul>
+            @enderror
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <label for="password" class="block font-medium text-sm text-gray-700">{{ __('Password') }}</label>
 
-            <x-text-input id="password" class="block mt-1 w-full"
+            <input id="password" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            @error('password')
+                <ul class="text-sm text-red-600 space-y-1 mt-2">
+                    @foreach ((array) $errors->get('password') as $message)
+                        <li>{{ $message }}</li>
+                    @endforeach
+                </ul>
+            @enderror
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <label for="password_confirmation" class="block font-medium text-sm text-gray-700">{{ __('Confirm Password') }}</label>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+            <input id="password_confirmation" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                             type="password"
                             name="password_confirmation" required autocomplete="new-password" />
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            @error('password_confirmation')
+                <ul class="text-sm text-red-600 space-y-1 mt-2">
+                    @foreach ((array) $errors->get('password_confirmation') as $message)
+                        <li>{{ $message }}</li>
+                    @endforeach
+                </ul>
+            @enderror
         </div>
 
         <div class="flex items-center justify-end mt-4">
@@ -44,9 +70,9 @@
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4">
+            <button type="submit" class="ms-4 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 {{ __('Register') }}
-            </x-primary-button>
+            </button>
         </div>
     </form>
-</x-guest-layout>
+@endsection
