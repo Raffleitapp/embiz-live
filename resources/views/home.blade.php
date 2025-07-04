@@ -297,8 +297,7 @@
             <div class="space-y-4">
                 <!-- FAQ Item 1 -->
                 <div class="border border-gray-200 rounded-lg">
-                    <button class="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-opacity-50" 
-                            style="focus:ring-color: #006C5F;" 
+                    <button class="w-full px-6 py-4 text-left focus:outline-none" 
                             onclick="toggleFAQ('faq1')">
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-semibold text-gray-900">What is Embiz?</h3>
@@ -314,8 +313,7 @@
 
                 <!-- FAQ Item 2 -->
                 <div class="border border-gray-200 rounded-lg">
-                    <button class="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-opacity-50" 
-                            style="focus:ring-color: #006C5F;" 
+                    <button class="w-full px-6 py-4 text-left focus:outline-none" 
                             onclick="toggleFAQ('faq2')">
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-semibold text-gray-900">How do I apply for a loan?</h3>
@@ -331,8 +329,7 @@
 
                 <!-- FAQ Item 3 -->
                 <div class="border border-gray-200 rounded-lg">
-                    <button class="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-opacity-50" 
-                            style="focus:ring-color: #006C5F;" 
+                    <button class="w-full px-6 py-4 text-left focus:outline-none" 
                             onclick="toggleFAQ('faq3')">
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-semibold text-gray-900">How long does it take to get approved?</h3>
@@ -348,8 +345,7 @@
 
                 <!-- FAQ Item 4 -->
                 <div class="border border-gray-200 rounded-lg">
-                    <button class="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-opacity-50" 
-                            style="focus:ring-color: #006C5F;" 
+                    <button class="w-full px-6 py-4 text-left focus:outline-none" 
                             onclick="toggleFAQ('faq4')">
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-semibold text-gray-900">What types of loans do you offer?</h3>
@@ -365,8 +361,7 @@
 
                 <!-- FAQ Item 5 -->
                 <div class="border border-gray-200 rounded-lg">
-                    <button class="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-opacity-50" 
-                            style="focus:ring-color: #006C5F;" 
+                    <button class="w-full px-6 py-4 text-left focus:outline-none" 
                             onclick="toggleFAQ('faq5')">
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-semibold text-gray-900">How much can I borrow?</h3>
@@ -382,8 +377,7 @@
 
                 <!-- FAQ Item 6 -->
                 <div class="border border-gray-200 rounded-lg">
-                    <button class="w-full px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-opacity-50" 
-                            style="focus:ring-color: #006C5F;" 
+                    <button class="w-full px-6 py-4 text-left focus:outline-none" 
                             onclick="toggleFAQ('faq6')">
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-semibold text-gray-900">How can I contact customer support?</h3>
