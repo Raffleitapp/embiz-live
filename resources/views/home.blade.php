@@ -39,55 +39,39 @@
 
     <!-- Main Content Section with Profile Left and Features Right -->
     <div class="container mx-auto px-4 md:px-8 lg:px-16 py-16">
-        <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
             <!-- Left Side - Profile Section -->
-            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 h-fit">
-                <div class="text-center mb-8">
-                    <div class="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden shadow-md">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                            alt="Profile Picture" class="w-full h-full object-cover">
+            <div class="bg-gray-50 rounded-2xl p-8 shadow-sm border border-gray-200 h-fit">
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             alt="Kemi Robinson" 
+                             class="w-full h-full object-cover">
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">John Doe</h3>
-                    <p class="text-gray-600 mb-4">Founder & CEO at Tech Innovations</p>
-                    <div class="text-sm text-gray-500 mb-6">
-                        <p class="mb-2"><i class='bx bx-map text-green-600 mr-2'></i>San Francisco, CA</p>
-                        <p><i class='bx bx-briefcase text-green-600 mr-2'></i>10+ years experience</p>
+                    
+                    <div class="flex items-center justify-center mb-3">
+                        <i class='bx bx-star text-yellow-500 text-sm mr-2'></i>
+                        <span class="text-sm font-medium" style="color: #006C5F;">Founding Member</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Kemi Robinson</h3>
+                    
+                    <div class="flex items-center justify-center text-sm text-gray-500 mb-2">
+                        <i class='bx bx-briefcase text-sm mr-2'></i>
+                        <span>Founder - NourishHer</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-center text-sm text-gray-500 mb-6">
+                        <i class='bx bx-map text-sm mr-2'></i>
+                        <span>Birmingham, UK</span>
+                    </div>
+                    
+                    <div class="flex justify-center space-x-2 mb-4">
+                        <span class="px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full">Business</span>
+                        <span class="px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full">Business</span>
+                        <span class="px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded-full">Business</span>
                     </div>
                 </div>
-
-                <div class="mb-6">
-                    <h4 class="font-semibold text-gray-900 mb-3">About</h4>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        Passionate about technology and innovation. Building solutions that make a difference in the startup
-                        ecosystem.
-                    </p>
-                </div>
-
-                <div class="mb-6">
-                    <h4 class="font-semibold text-gray-900 mb-3">Skills</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">Leadership</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">Strategy</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">Innovation</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">Tech</span>
-                    </div>
-                </div>
-
-                @auth
-                    <div class="space-y-2">
-                        <a href="{{ route('profile.edit') }}"
-                            class="w-full inline-flex items-center justify-center px-3 py-1.5 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity duration-200"
-                            style="background-color: #006C5F;">
-                            <i class='bx bx-edit text-sm mr-1'></i>
-                            Edit Profile
-                        </a>
-                        <a href="{{ route('messages') }}"
-                            class="w-full inline-flex items-center justify-center px-3 py-1.5 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 transition-colors duration-200">
-                            <i class='bx bx-message-dots text-sm mr-1'></i>
-                            View Messages
-                        </a>
-                    </div>
-                @endauth
             </div>
 
             <!-- Right Side - Features Content -->
@@ -186,12 +170,12 @@
             <!-- Founder 1 - Kemi Robinson -->
             <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                 <div class="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
-                    <img src="https://images.unsplash.com/photo-1531244156159-7d8c48a73313?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                         alt="Networking Event" 
+                    <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                         alt="Business Event" 
                          class="w-full h-full object-cover opacity-80">
                     <div class="absolute bottom-4 left-4">
                         <div class="w-16 h-16 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b390?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                            <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
                                  alt="Kemi Robinson" 
                                  class="w-full h-full object-cover">
                         </div>
