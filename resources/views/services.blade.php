@@ -47,7 +47,7 @@
             <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
                 Let's discuss how our services can help transform your business
             </p>
-            <a href="{{ route('messages') }}" 
+            <a href="{{ route('messages.index') }}" 
                class="inline-flex items-center px-8 py-4 bg-white font-semibold rounded-xl hover:bg-gray-100 transition-colors duration-200"
                style="color: #006C5F;">
                 Get In Touch

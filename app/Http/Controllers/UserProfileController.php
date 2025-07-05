@@ -174,4 +174,12 @@ class UserProfileController extends Controller
 
         return response()->json($recommendations);
     }
+
+    /**
+     * Show the current user's profile.
+     */
+    public function showCurrentUser()
+    {
+        return redirect()->route('user-profile.show', Auth::user());
+    }
 }

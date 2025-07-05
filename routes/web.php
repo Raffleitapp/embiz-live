@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('home');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/search-members', [DashboardController::class, 'searchMembers'])->name('dashboard.search-members');
     
     // User Profile Routes
+    Route::get('/user-profile', [UserProfileController::class, 'showCurrentUser'])->name('user-profile');
     Route::get('/user-profile/{user}', [UserProfileController::class, 'show'])->name('user-profile.show');
     Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit-form');
     Route::post('/profile/update', [UserProfileController::class, 'update'])->name('profile.update-form');
@@ -78,10 +79,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/messages/search', [MessageController::class, 'search'])->name('messages.search');
 });
 
-// Public routes
-Route::get('/home', function () {
-    return view('index');
-})->name('home');
 
 Route::get('/about', function () {
     return view('about');
@@ -90,22 +87,6 @@ Route::get('/about', function () {
 Route::get('/services', function () {
     return view('services');
 })->name('services');
-
-Route::get('/network', function () {
-    return view('network');
-})->name('network');
-
-Route::get('/affiliate', function () {
-    return view('affiliate');
-})->name('affiliate');
-
-Route::get('/messages', function () {
-    return view('messages');
-})->name('messages');
-
-Route::get('/user-profile', function () {
-    return view('user-profile');
-})->name('user-profile');
 
 // API Routes for public access
 Route::get('/api/opportunities/featured', [OpportunityController::class, 'featured'])->name('api.opportunities.featured');

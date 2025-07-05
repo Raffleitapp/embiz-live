@@ -14,10 +14,10 @@
             <!-- Text Content - Left Aligned -->
             <div class="relative z-10 flex items-center h-full px-8 md:px-12 lg:px-16">
                 <div class="text-left text-white max-w-2xl">
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 leading-tight">
                         <span style="color: #006C5F;">EmbizLive</span>
                     </h1>
-                    <h2 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-gray-200 leading-tight">
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-200 leading-tight">
                         Where Founders Meet Opportunity
                     </h2>
                     <p class="text-base md:text-lg mb-8 text-gray-300 leading-relaxed">
@@ -25,7 +25,7 @@
                         invitations curated by our team.
                     </p>
                     <div class="flex justify-start">
-                        <a href="{{ route('network') }}"
+                        <a href="{{ route('network.index') }}"
                             class="inline-flex items-center px-4 py-2 text-white font-medium rounded-lg hover:opacity-90 transform hover:scale-105 transition-all duration-200 shadow-lg"
                             style="background-color: #006C5F;">
                             <i class='bx bx-network-chart text-sm mr-1'></i>
@@ -38,12 +38,12 @@
     </div>
 
     <!-- Main Content Section with Profile Left and Features Right -->
-    <div class="container mx-auto px-4 md:px-8 lg:px-16 py-16">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
+    <div class="container mx-auto px-4 md:px-8 lg:px-16 py-12">
+        <div class="grid lg:grid-cols-2 gap-8 items-center">
             <!-- Left Side - Profile Section -->
-            <div class="bg-gray-50 rounded-2xl p-8 shadow-sm border border-gray-200 h-fit">
+            <div class="bg-gray-50 rounded-2xl p-6 shadow-sm border border-gray-200 h-fit">
                 <div class="text-center">
-                    <div class="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden">
+                    <div class="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
                              alt="Kemi Robinson" 
                              class="w-full h-full object-cover">
@@ -76,64 +76,64 @@
 
             <!-- Right Side - Features Content -->
             <div>
-                <div class="mb-12">
-                    <h2 class="text-4xl md:text-4xl font-bold text-gray-900 mb-4">
+                <div class="mb-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
                         Connect. Build. Grow. — All in One Place
                     </h2>
                 </div>
 
-                <div class="space-y-8">
+                <div class="space-y-6">
                     <!-- Discover Aligned Founders -->
-                    <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
                             style="background-color: #006C5F;">
-                            <i class='bx bx-search text-white text-xl'></i>
+                            <i class='bx bx-search text-white text-lg'></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Discover Aligned Founders</h3>
-                            <p class="text-gray-600 leading-relaxed">
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">Discover Aligned Founders</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">
                                 Find partners with shared goals and complementary skills
                             </p>
                         </div>
                     </div>
 
                     <!-- Opportunity Alerts -->
-                    <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
                             style="background-color: #006C5F;">
-                            <i class='bx bx-bell text-white text-xl'></i>
+                            <i class='bx bx-bell text-white text-lg'></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Opportunity Alerts</h3>
-                            <p class="text-gray-600 leading-relaxed">
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">Opportunity Alerts</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">
                                 Get notified when admin shares investor or collaboration offers
                             </p>
                         </div>
                     </div>
 
                     <!-- Track and RSVP to Events -->
-                    <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
                             style="background-color: #006C5F;">
-                            <i class='bx bx-calendar text-white text-xl'></i>
+                            <i class='bx bx-calendar text-white text-lg'></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Track and RSVP to Events</h3>
-                            <p class="text-gray-600 leading-relaxed">
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">Track and RSVP to Events</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">
                                 Stay updated on events around the globe
                             </p>
                         </div>
                     </div>
 
                     <!-- Community-Focused -->
-                    <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
                             style="background-color: #006C5F;">
-                            <i class='bx bx-group text-white text-xl'></i>
+                            <i class='bx bx-group text-white text-lg'></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Community-Focused</h3>
-                            <p class="text-gray-600 leading-relaxed">
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">Community-Focused</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">
                                 Uplifting Black entrepreneurs and global changemakers
                             </p>
                         </div>
@@ -141,8 +141,8 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="mt-8 flex flex-col sm:flex-row gap-3">
-                    <a href="{{ route('network') }}"
+                <div class="mt-6 flex flex-col sm:flex-row gap-2">
+                    <a href="{{ route('network.index') }}"
                         class="inline-flex items-center justify-center px-4 py-2 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity duration-200"
                         style="background-color: #006C5F;">
                         <i class='bx bx-user-plus text-sm mr-1'></i>
@@ -160,13 +160,13 @@
     </div>
 
     <!-- Meet the Visionaries Section -->
-    <div class="container mx-auto px-4 md:px-8 lg:px-16 py-16">
-        <div class="mb-12">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Meet the Visionaries Behind Our Network</h2>
-            <p class="text-lg text-gray-600 mb-4">Get to know the Founders? <a href="{{ route('network') }}" class="font-semibold" style="color: #006C5F;">Explore all</a></p>
+    <div class="container mx-auto px-4 md:px-8 lg:px-16 py-12">
+        <div class="mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Meet the Visionaries Behind Our Network</h2>
+            <p class="text-base text-gray-600 mb-3">Get to know the Founders? <a href="{{ route('network.index') }}" class="font-semibold" style="color: #006C5F;">Explore all</a></p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Founder 1 - Kemi Robinson -->
             <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                 <div class="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
@@ -198,7 +198,7 @@
                         <i class='bx bx-map text-sm mr-2'></i>
                         <span>Birmingham, UK</span>
                     </div>
-                    <a href="{{ route('network') }}" 
+                    <a href="{{ route('network.index') }}" 
                        class="w-full inline-flex items-center justify-center px-4 py-2 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity duration-200"
                        style="background-color: #006C5F;">
                         View Profile
@@ -237,7 +237,7 @@
                         <i class='bx bx-map text-sm mr-2'></i>
                         <span>Houston, TX</span>
                     </div>
-                    <a href="{{ route('network') }}" 
+                    <a href="{{ route('network.index') }}" 
                        class="w-full inline-flex items-center justify-center px-4 py-2 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity duration-200"
                        style="background-color: #006C5F;">
                         View Profile
@@ -276,7 +276,7 @@
                         <i class='bx bx-map text-sm mr-2'></i>
                         <span>Washington, D.C.</span>
                     </div>
-                    <a href="{{ route('network') }}" 
+                    <a href="{{ route('network.index') }}" 
                        class="w-full inline-flex items-center justify-center px-4 py-2 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity duration-200"
                        style="background-color: #006C5F;">
                         View Profile
@@ -287,25 +287,25 @@
     </div>
 
     <!-- FAQ Section -->
-    <div class="container mx-auto px-4 md:px-8 lg:px-16 py-16">
+    <div class="container mx-auto px-4 md:px-8 lg:px-16 py-12">
         <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Frequently asked questions</h2>
-                <p class="text-lg text-gray-600">Everything you need to know about Embiz.</p>
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Frequently asked questions</h2>
+                <p class="text-base text-gray-600">Everything you need to know about Embiz.</p>
             </div>
 
             <div class="space-y-4">
                 <!-- FAQ Item 1 -->
                 <div class="border border-gray-200 rounded-lg">
-                    <button class="w-full px-6 py-4 text-left focus:outline-none" 
+                    <button class="w-full px-4 py-3 text-left focus:outline-none" 
                             onclick="toggleFAQ('faq1')">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-lg font-semibold text-gray-900">What is Embiz?</h3>
-                            <i class='bx bx-minus text-xl' style="color: #006C5F;" id="faq1-icon"></i>
+                            <h3 class="text-base font-semibold text-gray-900">What is Embiz?</h3>
+                            <i class='bx bx-minus text-lg' style="color: #006C5F;" id="faq1-icon"></i>
                         </div>
                     </button>
-                    <div id="faq1" class="px-6 pb-4">
-                        <p class="text-gray-600 leading-relaxed">
+                    <div id="faq1" class="px-4 pb-3">
+                        <p class="text-sm text-gray-600 leading-relaxed">
                             Embiz is a micro-lending platform that provides quick and easy access to small loans for individuals and entrepreneurs. Our user-friendly app allows you to apply for, receive, and manage loans seamlessly.
                         </p>
                     </div>
@@ -395,19 +395,19 @@
     </div>
 
     <!-- CTA Section -->
-    <div class="container mx-auto px-4 md:px-8 lg:px-16 py-16">
-        <div class="rounded-3xl p-12 text-center text-white" style="background: linear-gradient(135deg, #006C5F, #00857A);">
-            <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Transform Your Business?</h2>
-            <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+    <div class="container mx-auto px-4 md:px-8 lg:px-16 py-12">
+        <div class="rounded-3xl p-8 text-center text-white" style="background: linear-gradient(135deg, #006C5F, #00857A);">
+            <h2 class="text-2xl md:text-3xl font-bold mb-3">Ready to Transform Your Business?</h2>
+            <p class="text-base md:text-lg mb-6 opacity-90 max-w-2xl mx-auto">
                 Join thousands of successful entrepreneurs and businesses already growing with EmbizLive
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('network') }}" 
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="{{ route('network.index') }}" 
                    class="inline-flex items-center px-4 py-2 bg-white text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors duration-200"
                    style="color: #006C5F;">
                     Start Your Journey
                 </a>
-                <a href="{{ route('messages') }}" 
+                <a href="{{ route('messages.index') }}" 
                    class="inline-flex items-center px-4 py-2 bg-black/20 text-white text-sm font-medium rounded-lg hover:bg-black/30 transition-colors duration-200">
                     Connect Today
                 </a>

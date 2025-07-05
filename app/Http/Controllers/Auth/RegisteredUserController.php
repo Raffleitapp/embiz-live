@@ -41,6 +41,17 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Create default profile for the user
+        $nameParts = explode(' ', $request->name, 2);
+        $user->profile()->create([
+            'first_name' => $nameParts[0],
+            'last_name' => $nameParts[1] ?? '',
+            'profile_type' => 'entrepreneur',
+            'is_founding_member' => false,
+            'is_verified' => false,
+            'is_active' => true,
+        ]);
+
         event(new Registered($user));
 
         Auth::login($user);

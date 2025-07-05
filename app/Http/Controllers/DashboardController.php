@@ -25,9 +25,14 @@ class DashboardController extends Controller
             $query->where('is_founding_member', true);
         })->count();
         
-        $users = User::with('profile')->orderBy('created_at', 'desc')->get();
+        // Get opportunities count
+        $totalOpportunities = \App\Models\Opportunity::count();
+        $activeOpportunities = \App\Models\Opportunity::where('status', 'active')->count();
         
-        return view('dashboard', compact('totalUsers', 'activeUsers', 'foundingMembers', 'users'));
+        // Get recent users for the table (limit to 10 for dashboard)
+        $users = User::with('profile')->orderBy('created_at', 'desc')->limit(10)->get();
+        
+        return view('dashboard', compact('totalUsers', 'activeUsers', 'foundingMembers', 'totalOpportunities', 'activeOpportunities', 'users'));
     }
 
     /**
