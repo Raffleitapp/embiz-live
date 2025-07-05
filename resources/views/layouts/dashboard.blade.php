@@ -55,25 +55,25 @@
                             </div>
                         </div>
                         
-                        <a href="#" class="flex items-center space-x-1 md:space-x-2 lg:space-x-3 px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base text-gray-700 hover:bg-gray-50 rounded-lg">
+                        <a href="{{ route('dashboard.roles-permissions') }}" class="flex items-center space-x-1 md:space-x-2 lg:space-x-3 px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base {{ request()->routeIs('dashboard.roles-permissions') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg">
                             <i class='bx bx-shield text-base md:text-lg'></i>
                             <span class="font-medium hidden md:inline">Roles & Permissions</span>
                             <span class="font-medium md:hidden">Roles</span>
                         </a>
                         
-                        <a href="#" class="flex items-center space-x-1 md:space-x-2 lg:space-x-3 px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base text-gray-700 hover:bg-gray-50 rounded-lg">
+                        <a href="{{ route('dashboard.activity-logs') }}" class="flex items-center space-x-1 md:space-x-2 lg:space-x-3 px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base {{ request()->routeIs('dashboard.activity-logs') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg">
                             <i class='bx bx-list-ul text-base md:text-lg'></i>
                             <span class="font-medium hidden md:inline">Activity Logs</span>
                             <span class="font-medium md:hidden">Logs</span>
                         </a>
                         
                         <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 md:mb-2 lg:mb-3 mt-3 md:mt-4 lg:mt-6">OTHERS</div>
-                        <a href="#" class="flex items-center space-x-1 md:space-x-2 lg:space-x-3 px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base text-gray-700 hover:bg-gray-50 rounded-lg">
+                        <a href="{{ route('dashboard.settings') }}" class="flex items-center space-x-1 md:space-x-2 lg:space-x-3 px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base {{ request()->routeIs('dashboard.settings') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg">
                             <i class='bx bx-cog text-base md:text-lg'></i>
                             <span class="font-medium">Settings</span>
                         </a>
                         
-                        <a href="#" class="flex items-center space-x-1 md:space-x-2 lg:space-x-3 px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base text-gray-700 hover:bg-gray-50 rounded-lg">
+                        <a href="{{ route('dashboard.support') }}" class="flex items-center space-x-1 md:space-x-2 lg:space-x-3 px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base {{ request()->routeIs('dashboard.support') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg">
                             <i class='bx bx-help-circle text-base md:text-lg'></i>
                             <span class="font-medium hidden md:inline">Support / Help</span>
                             <span class="font-medium md:hidden">Help</span>
@@ -125,7 +125,7 @@
                                 
                                 <div class="flex items-center space-x-2 lg:space-x-3">
                                     <div class="w-7 h-7 sm:w-8 sm:h-8 bg-teal-600 rounded-full flex items-center justify-center">
-                                        <span class="text-white font-medium text-xs sm:text-sm">{{ substr(auth()->user()->name, 0, 1) }}</span>
+                                        <span class="text-white font-medium text-xs sm:text-sm">{{ auth()->user()->initials }}</span>
                                     </div>
                                     <div class="hidden md:block">
                                         <div class="text-sm font-medium text-gray-900 truncate max-w-24 lg:max-w-none">{{ auth()->user()->name }}</div>
@@ -184,23 +184,23 @@
                         </div>
                     </div>
                     
-                    <a href="#" class="flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 text-sm sm:text-base text-gray-700 hover:bg-gray-50 rounded-lg">
+                    <a href="{{ route('dashboard.roles-permissions') }}" class="flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 text-sm sm:text-base {{ request()->routeIs('dashboard.roles-permissions') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg">
                         <i class='bx bx-shield text-lg'></i>
                         <span class="font-medium">Roles & Permissions</span>
                     </a>
                     
-                    <a href="#" class="flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 text-sm sm:text-base text-gray-700 hover:bg-gray-50 rounded-lg">
+                    <a href="{{ route('dashboard.activity-logs') }}" class="flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 text-sm sm:text-base {{ request()->routeIs('dashboard.activity-logs') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg">
                         <i class='bx bx-list-ul text-lg'></i>
                         <span class="font-medium">Activity Logs</span>
                     </a>
                     
                     <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 sm:mb-3 mt-4 sm:mt-6">OTHERS</div>
-                    <a href="#" class="flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 text-sm sm:text-base text-gray-700 hover:bg-gray-50 rounded-lg">
+                    <a href="{{ route('dashboard.settings') }}" class="flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 text-sm sm:text-base {{ request()->routeIs('dashboard.settings') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg">
                         <i class='bx bx-cog text-lg'></i>
                         <span class="font-medium">Settings</span>
                     </a>
                     
-                    <a href="#" class="flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 text-sm sm:text-base text-gray-700 hover:bg-gray-50 rounded-lg">
+                    <a href="{{ route('dashboard.support') }}" class="flex items-center space-x-2 sm:space-x-3 px-2 sm:px-3 py-2 text-sm sm:text-base {{ request()->routeIs('dashboard.support') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg">
                         <i class='bx bx-help-circle text-lg'></i>
                         <span class="font-medium">Support / Help</span>
                     </a>

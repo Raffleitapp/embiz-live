@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'role_id',
+        'last_login_at',
     ];
 
     /**
@@ -131,5 +134,125 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the role associated with the user.
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Get the activity logs for the user.
+     */
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
+    /**
+     * Get the support tickets created by the user.
+     */
+    public function supportTickets()
+    {
+        return $this->hasMany(SupportTicket::class);
+    }
+
+    /**
+     * Get the support tickets assigned to the user.
+     */
+    public function assignedTickets()
+    {
+        return $this->hasMany(SupportTicket::class, 'assigned_to');
+    }
+
+    /**
+     * Check if user has a specific role.
+     */
+    public function hasRole($role)
+    {
+        if (is_string($role)) {
+            return $this->role && $this->role->name === $role;
+        }
+        
+        return $this->role && $this->role->id === $role->id;
+    }
+
+    /**
+     * Check if user has a specific permission.
+     */
+    public function hasPermission($permission)
+    {
+        if (!$this->role) {
+            return false;
+        }
+
+        return $this->role->hasPermission($permission);
+    }
+
+    /**
+     * Check if user is admin.
+     */
+    public function isAdmin()
+    {
+        return $this->hasRole('admin') || $this->hasRole('super_admin');
+    }
+
+    /**
+     * Check if user is founding member.
+     */
+    public function isFoundingMember()
+    {
+        return $this->profile && $this->profile->is_founding_member;
+    }
+
+    /**
+     * Log user activity.
+     */
+    public function logActivity($action, $description, $type = 'general', $metadata = null)
+    {
+        return $this->activityLogs()->create([
+            'action' => $action,
+            'description' => $description,
+            'type' => $type,
+            'metadata' => $metadata,
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+    }
+
+    /**
+     * Update last login timestamp.
+     */
+    public function updateLastLogin()
+    {
+        $this->update(['last_login_at' => now()]);
+        $this->logActivity('Logged in', 'User logged in successfully', 'login');
+    }
+
+    /**
+     * Get the user's full name.
+     */
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
+     * Get the user's full name.
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
+     * Get the user's initials.
+     */
+    public function getInitialsAttribute()
+    {
+        return substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1);
     }
 }

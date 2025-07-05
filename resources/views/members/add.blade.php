@@ -39,15 +39,27 @@
                     @csrf
                     
                     <!-- Name -->
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                        <input type="text" 
-                               id="name" 
-                               name="name" 
-                               placeholder="Members name"
-                               value="{{ old('name') }}"
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                               required>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                            <input type="text" 
+                                   id="first_name" 
+                                   name="first_name" 
+                                   placeholder="First name"
+                                   value="{{ old('first_name') }}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                   required>
+                        </div>
+                        <div>
+                            <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                            <input type="text" 
+                                   id="last_name" 
+                                   name="last_name" 
+                                   placeholder="Last name"
+                                   value="{{ old('last_name') }}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                   required>
+                        </div>
                     </div>
                     
                     <!-- Email -->
@@ -108,9 +120,12 @@
                                 name="role" 
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                                 required>
-                            <option value="User" {{ old('role') === 'User' ? 'selected' : '' }}>User</option>
-                            <option value="Founding Member" {{ old('role') === 'Founding Member' ? 'selected' : 'selected' }}>Founding Member</option>
-                            <option value="Admin" {{ old('role') === 'Admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="">Select a role</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->id }}" {{ old('role') == $role->id ? 'selected' : '' }}>
+                                    {{ $role->display_name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     

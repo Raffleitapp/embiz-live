@@ -1,35 +1,36 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-6xl mx-auto">
+<div class="min-h-screen">
+    <div class="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8">
+        <div class="max-w-7xl mx-auto">
         <!-- Header Section -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Network</h1>
-            <p class="text-gray-600">Connect with professionals and grow your business network</p>
+        <div class="mb-4 sm:mb-6 lg:mb-8">
+            <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 sm:mb-2">Network</h1>
+            <p class="text-sm sm:text-base text-gray-600">Connect with professionals and grow your business network</p>
         </div>
 
         <!-- Search and Filter Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-            <div class="p-6">
-                <div class="flex flex-col md:flex-row gap-4">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-3 sm:mb-4 lg:mb-6">
+            <div class="p-3 sm:p-4 lg:p-6">
+                <div class="flex flex-col lg:flex-row gap-3 lg:gap-4">
                     <div class="flex-1">
                         <div class="relative">
-                            <i class='bx bx-search absolute left-3 top-3 text-gray-400'></i>
+                            <i class='bx bx-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm sm:text-base'></i>
                             <input type="text" 
-                                   placeholder="Search professionals, companies, or skills..." 
-                                   class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-opacity-50 focus:border-transparent"
+                                   placeholder="Search professionals..." 
+                                   class="w-full pl-10 pr-4 py-2 sm:py-2.5 lg:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-opacity-50 focus:border-transparent"
                                    style="focus:ring-color: #006C5F;">
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-3">
+                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
                         <!-- Industry Dropdown -->
                         <div class="relative" x-data="{ open: false, selected: 'All Industries' }">
                             <button @click="open = !open" 
-                                    class="flex items-center justify-between px-4 py-2.5 bg-white border border-gray-300 rounded-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:border-transparent transition-all duration-200 min-w-[160px]"
+                                    class="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 bg-white border border-gray-300 rounded-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:border-transparent transition-all duration-200 w-full sm:min-w-[120px] lg:min-w-[140px] text-sm sm:text-base"
                                     style="focus:ring-color: #006C5F;">
-                                <span class="text-gray-700 font-medium" x-text="selected"></span>
-                                <i class='bx bx-chevron-down text-gray-500 transition-transform duration-200' 
+                                <span class="text-gray-700 font-medium truncate" x-text="selected"></span>
+                                <i class='bx bx-chevron-down text-gray-500 transition-transform duration-200 ml-2 flex-shrink-0 text-sm' 
                                    :class="{ 'rotate-180': open }"></i>
                             </button>
                             <div x-show="open" 
@@ -82,10 +83,10 @@
                         <!-- Location Dropdown -->
                         <div class="relative" x-data="{ open: false, selected: 'All Locations' }">
                             <button @click="open = !open" 
-                                    class="flex items-center justify-between px-4 py-2.5 bg-white border border-gray-300 rounded-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:border-transparent transition-all duration-200 min-w-[160px]"
+                                    class="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 bg-white border border-gray-300 rounded-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:border-transparent transition-all duration-200 w-full sm:min-w-[120px] lg:min-w-[140px] text-sm sm:text-base"
                                     style="focus:ring-color: #006C5F;">
-                                <span class="text-gray-700 font-medium" x-text="selected"></span>
-                                <i class='bx bx-chevron-down text-gray-500 transition-transform duration-200' 
+                                <span class="text-gray-700 font-medium truncate" x-text="selected"></span>
+                                <i class='bx bx-chevron-down text-gray-500 transition-transform duration-200 ml-2 flex-shrink-0 text-sm' 
                                    :class="{ 'rotate-180': open }"></i>
                             </button>
                             <div x-show="open" 
@@ -142,10 +143,10 @@
                         <!-- Connection Type Dropdown -->
                         <div class="relative" x-data="{ open: false, selected: 'All Connections' }">
                             <button @click="open = !open" 
-                                    class="flex items-center justify-between px-4 py-2.5 bg-white border border-gray-300 rounded-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:border-transparent transition-all duration-200 min-w-[160px]"
+                                    class="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 bg-white border border-gray-300 rounded-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:border-transparent transition-all duration-200 w-full sm:min-w-[120px] lg:min-w-[140px] text-sm sm:text-base"
                                     style="focus:ring-color: #006C5F;">
-                                <span class="text-gray-700 font-medium" x-text="selected"></span>
-                                <i class='bx bx-chevron-down text-gray-500 transition-transform duration-200' 
+                                <span class="text-gray-700 font-medium truncate" x-text="selected"></span>
+                                <i class='bx bx-chevron-down text-gray-500 transition-transform duration-200 ml-2 flex-shrink-0 text-sm' 
                                    :class="{ 'rotate-180': open }"></i>
                             </button>
                             <div x-show="open" 
@@ -179,159 +180,169 @@
                             </div>
                         </div>
                         
-                        <button class="px-6 py-2.5 text-white font-medium rounded-lg hover:opacity-90 transition-opacity shadow-sm flex items-center"
-                                style="background-color: #006C5F;">
-                            <i class='bx bx-search mr-2'></i>Search
-                        </button>
-                        
-                        <!-- Clear Filters Button -->
-                        <button class="px-4 py-2.5 text-gray-600 hover:text-gray-800 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors">
-                            <i class='bx bx-x mr-2'></i>Clear
-                        </button>
+                        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                            <button class="px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 text-white font-medium rounded-lg hover:opacity-90 transition-opacity shadow-sm flex items-center justify-center text-sm sm:text-base"
+                                    style="background-color: #006C5F;">
+                                <i class='bx bx-search mr-1 sm:mr-2'></i>Search
+                            </button>
+                            
+                            <!-- Clear Filters Button -->
+                            <button class="px-3 sm:px-4 py-2 sm:py-2.5 text-gray-600 hover:text-gray-800 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors text-sm sm:text-base">
+                                <i class='bx bx-x mr-1 sm:mr-2'></i>Clear
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="grid lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
             <!-- Main Content -->
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2 space-y-3 sm:space-y-4 lg:space-y-6">
                 <!-- Network Stats -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-                    <div class="p-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Your Network</h2>
-                        <div class="grid grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="p-3 sm:p-4 lg:p-6">
+                        <h2 class="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-2 sm:mb-3 lg:mb-4">Your Network</h2>
+                        <div class="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4">
                             <div class="text-center">
-                                <div class="text-2xl font-bold text-gray-900">247</div>
-                                <div class="text-sm text-gray-600">Connections</div>
+                                <div class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">247</div>
+                                <div class="text-xs sm:text-sm text-gray-600">Connections</div>
                             </div>
                             <div class="text-center">
-                                <div class="text-2xl font-bold text-gray-900">15</div>
-                                <div class="text-sm text-gray-600">New This Week</div>
+                                <div class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">15</div>
+                                <div class="text-xs sm:text-sm text-gray-600">New This Week</div>
                             </div>
                             <div class="text-center">
-                                <div class="text-2xl font-bold text-gray-900">8</div>
-                                <div class="text-sm text-gray-600">Pending Requests</div>
+                                <div class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">8</div>
+                                <div class="text-xs sm:text-sm text-gray-600">Pending Requests</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- People You May Know -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-                    <div class="p-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">People You May Know</h2>
-                        <div class="space-y-4">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="p-3 sm:p-4 lg:p-6">
+                        <h2 class="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-2 sm:mb-3 lg:mb-4">People You May Know</h2>
+                        <div class="space-y-2 sm:space-y-3 lg:space-y-4">
                             <!-- Connection Suggestion 1 -->
-                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                                <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b332c1cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                                         alt="Marcus Johnson" 
-                                         class="w-full h-full object-cover">
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-semibold text-gray-900">Marcus Johnson</h3>
-                                    <p class="text-sm text-gray-600">CEO & Founder at TechFlow Solutions</p>
-                                    <p class="text-sm text-gray-500">Atlanta, GA • Technology</p>
-                                    <div class="flex items-center text-sm text-gray-500 mt-1">
-                                        <i class='bx bx-user mr-1'></i>
-                                        <span>5 mutual connections</span>
+                            <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 lg:space-x-4 p-2 sm:p-3 lg:p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-start space-x-3 flex-1">
+                                    <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 rounded-full overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b332c1cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                             alt="Marcus Johnson" 
+                                             class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="font-semibold text-gray-900 text-sm sm:text-base">Marcus Johnson</h3>
+                                        <p class="text-xs sm:text-sm text-gray-600 truncate">CEO & Founder at TechFlow Solutions</p>
+                                        <p class="text-xs sm:text-sm text-gray-500">Atlanta, GA • Technology</p>
+                                        <div class="flex items-center text-xs sm:text-sm text-gray-500 mt-1">
+                                            <i class='bx bx-user mr-1'></i>
+                                            <span>5 mutual connections</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex space-x-2">
-                                    <button class="px-4 py-2 text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
+                                <div class="flex flex-row sm:flex-col space-x-2 sm:space-x-0 sm:space-y-2">
+                                    <button class="flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-white font-medium rounded-lg hover:opacity-90 transition-opacity text-xs sm:text-sm"
                                             style="background-color: #006C5F;">
                                         Connect
                                     </button>
-                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                                    <button class="flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-xs sm:text-sm">
                                         View Profile
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Connection Suggestion 2 -->
-                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                                <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                                         alt="Sarah Williams" 
-                                         class="w-full h-full object-cover">
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-semibold text-gray-900">Sarah Williams</h3>
-                                    <p class="text-sm text-gray-600">Investment Director at Growth Capital Partners</p>
-                                    <p class="text-sm text-gray-500">New York, NY • Finance</p>
-                                    <div class="flex items-center text-sm text-gray-500 mt-1">
-                                        <i class='bx bx-user mr-1'></i>
-                                        <span>12 mutual connections</span>
+                            <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 lg:space-x-4 p-2 sm:p-3 lg:p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-start space-x-3 flex-1">
+                                    <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 rounded-full overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                             alt="Sarah Williams" 
+                                             class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="font-semibold text-gray-900 text-sm sm:text-base">Sarah Williams</h3>
+                                        <p class="text-xs sm:text-sm text-gray-600 truncate">Investment Director at Growth Capital Partners</p>
+                                        <p class="text-xs sm:text-sm text-gray-500">New York, NY • Finance</p>
+                                        <div class="flex items-center text-xs sm:text-sm text-gray-500 mt-1">
+                                            <i class='bx bx-user mr-1'></i>
+                                            <span>12 mutual connections</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex space-x-2">
-                                    <button class="px-4 py-2 text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
+                                <div class="flex flex-row sm:flex-col space-x-2 sm:space-x-0 sm:space-y-2">
+                                    <button class="flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-white font-medium rounded-lg hover:opacity-90 transition-opacity text-xs sm:text-sm"
                                             style="background-color: #006C5F;">
                                         Connect
                                     </button>
-                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                                    <button class="flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-xs sm:text-sm">
                                         View Profile
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Connection Suggestion 3 -->
-                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                                <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                                         alt="David Thompson" 
-                                         class="w-full h-full object-cover">
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-semibold text-gray-900">David Thompson</h3>
-                                    <p class="text-sm text-gray-600">Senior Product Manager at InnovateLabs</p>
-                                    <p class="text-sm text-gray-500">San Francisco, CA • Technology</p>
-                                    <div class="flex items-center text-sm text-gray-500 mt-1">
-                                        <i class='bx bx-user mr-1'></i>
-                                        <span>3 mutual connections</span>
+                            <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 lg:space-x-4 p-2 sm:p-3 lg:p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-start space-x-3 flex-1">
+                                    <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 rounded-full overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                             alt="David Thompson" 
+                                             class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="font-semibold text-gray-900 text-sm sm:text-base">David Thompson</h3>
+                                        <p class="text-xs sm:text-sm text-gray-600 truncate">Senior Product Manager at InnovateLabs</p>
+                                        <p class="text-xs sm:text-sm text-gray-500">San Francisco, CA • Technology</p>
+                                        <div class="flex items-center text-xs sm:text-sm text-gray-500 mt-1">
+                                            <i class='bx bx-user mr-1'></i>
+                                            <span>3 mutual connections</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex space-x-2">
-                                    <button class="px-4 py-2 text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
+                                <div class="flex flex-row sm:flex-col space-x-2 sm:space-x-0 sm:space-y-2">
+                                    <button class="flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-white font-medium rounded-lg hover:opacity-90 transition-opacity text-xs sm:text-sm"
                                             style="background-color: #006C5F;">
                                         Connect
                                     </button>
-                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                                    <button class="flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-xs sm:text-sm">
                                         View Profile
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Connection Suggestion 4 -->
-                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-                                <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                                    <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                                         alt="Angela Davis" 
-                                         class="w-full h-full object-cover">
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-semibold text-gray-900">Angela Davis</h3>
-                                    <p class="text-sm text-gray-600">Marketing Director at Brand Innovators</p>
-                                    <p class="text-sm text-gray-500">Chicago, IL • Marketing</p>
-                                    <div class="flex items-center text-sm text-gray-500 mt-1">
-                                        <i class='bx bx-user mr-1'></i>
-                                        <span>7 mutual connections</span>
+                            <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 lg:space-x-4 p-2 sm:p-3 lg:p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-start space-x-3 flex-1">
+                                    <div class="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 rounded-full overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                             alt="Angela Davis" 
+                                             class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="font-semibold text-gray-900 text-sm sm:text-base">Angela Davis</h3>
+                                        <p class="text-xs sm:text-sm text-gray-600 truncate">Marketing Director at Brand Innovators</p>
+                                        <p class="text-xs sm:text-sm text-gray-500">Chicago, IL • Marketing</p>
+                                        <div class="flex items-center text-xs sm:text-sm text-gray-500 mt-1">
+                                            <i class='bx bx-user mr-1'></i>
+                                            <span>7 mutual connections</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex space-x-2">
-                                    <button class="px-4 py-2 text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
+                                <div class="flex flex-row sm:flex-col space-x-2 sm:space-x-0 sm:space-y-2">
+                                    <button class="flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-white font-medium rounded-lg hover:opacity-90 transition-opacity text-xs sm:text-sm"
                                             style="background-color: #006C5F;">
                                         Connect
                                     </button>
-                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                                    <button class="flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-xs sm:text-sm">
                                         View Profile
                                     </button>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="text-center mt-6">
+                        <div class="text-center mt-3 sm:mt-4 lg:mt-6">
                             <button class="text-sm font-medium hover:underline" style="color: #006C5F;">
                                 View all suggestions →
                             </button>
@@ -341,45 +352,45 @@
 
                 <!-- Recent Activity -->
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-                    <div class="p-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Recent Network Activity</h2>
-                        <div class="space-y-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                    <div class="p-3 sm:p-4 lg:p-6">
+                        <h2 class="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-2 sm:mb-3 lg:mb-4">Recent Network Activity</h2>
+                        <div class="space-y-2 sm:space-y-3 lg:space-y-4">
+                            <div class="flex items-center space-x-2 sm:space-x-3">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0">
                                     <img src="https://images.unsplash.com/photo-1494790108755-2616b332c1cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
                                          alt="Marcus Johnson" 
                                          class="w-full h-full object-cover">
                                 </div>
-                                <div class="flex-1">
-                                    <p class="text-sm text-gray-900">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs sm:text-sm text-gray-900">
                                         <span class="font-medium">Marcus Johnson</span> connected with you
                                     </p>
                                     <p class="text-xs text-gray-500">2 hours ago</p>
                                 </div>
                             </div>
                             
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                            <div class="flex items-center space-x-2 sm:space-x-3">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0">
                                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
                                          alt="Sarah Williams" 
                                          class="w-full h-full object-cover">
                                 </div>
-                                <div class="flex-1">
-                                    <p class="text-sm text-gray-900">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs sm:text-sm text-gray-900">
                                         <span class="font-medium">Sarah Williams</span> viewed your profile
                                     </p>
                                     <p class="text-xs text-gray-500">1 day ago</p>
                                 </div>
                             </div>
                             
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                            <div class="flex items-center space-x-2 sm:space-x-3">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0">
                                     <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
                                          alt="David Thompson" 
                                          class="w-full h-full object-cover">
                                 </div>
-                                <div class="flex-1">
-                                    <p class="text-sm text-gray-900">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs sm:text-sm text-gray-900">
                                         <span class="font-medium">David Thompson</span> sent you a connection request
                                     </p>
                                     <p class="text-xs text-gray-500">2 days ago</p>
@@ -391,26 +402,26 @@
             </div>
 
             <!-- Right Sidebar -->
-            <div class="lg:col-span-1">
+            <div class="lg:col-span-1 mt-4 lg:mt-0">
                 <!-- Quick Actions -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-                        <div class="space-y-3">
-                            <button class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors flex items-center">
-                                <i class='bx bx-user-plus mr-3 text-xl'></i>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-4 sm:mb-6">
+                    <div class="p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Quick Actions</h3>
+                        <div class="space-y-2 sm:space-y-3">
+                            <button class="w-full px-3 sm:px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors flex items-center text-sm sm:text-base">
+                                <i class='bx bx-user-plus mr-2 sm:mr-3 text-lg sm:text-xl'></i>
                                 Import Contacts
                             </button>
-                            <button class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors flex items-center">
-                                <i class='bx bx-search mr-3 text-xl'></i>
+                            <button class="w-full px-3 sm:px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors flex items-center text-sm sm:text-base">
+                                <i class='bx bx-search mr-2 sm:mr-3 text-lg sm:text-xl'></i>
                                 Advanced Search
                             </button>
-                            <button class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors flex items-center">
-                                <i class='bx bx-group mr-3 text-xl'></i>
+                            <button class="w-full px-3 sm:px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors flex items-center text-sm sm:text-base">
+                                <i class='bx bx-group mr-2 sm:mr-3 text-lg sm:text-xl'></i>
                                 My Connections
                             </button>
-                            <button class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors flex items-center">
-                                <i class='bx bx-bell mr-3 text-xl'></i>
+                            <button class="w-full px-3 sm:px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors flex items-center text-sm sm:text-base">
+                                <i class='bx bx-bell mr-2 sm:mr-3 text-lg sm:text-xl'></i>
                                 Connection Requests
                             </button>
                         </div>
@@ -418,10 +429,10 @@
                 </div>
 
                 <!-- Network Insights -->
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Network Insights</h3>
-                        <div class="space-y-4">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-4 sm:mb-6">
+                    <div class="p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Network Insights</h3>
+                        <div class="space-y-3 sm:space-y-4">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm text-gray-600">Profile Views</span>
                                 <span class="text-sm font-medium text-gray-900">42 this week</span>
@@ -440,9 +451,9 @@
 
                 <!-- Trending Topics -->
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Trending in Your Network</h3>
-                        <div class="space-y-3">
+                    <div class="p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Trending in Your Network</h3>
+                        <div class="space-y-2 sm:space-y-3">
                             <div class="flex items-center space-x-2">
                                 <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                                 <span class="text-sm text-gray-700">#StartupFunding</span>

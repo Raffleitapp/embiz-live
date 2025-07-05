@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
 {
@@ -181,5 +182,50 @@ class UserProfileController extends Controller
     public function showCurrentUser()
     {
         return redirect()->route('user-profile.show', Auth::user());
+    }
+
+    /**
+     * Show the form for editing the user's account details.
+     */
+    public function editAccount()
+    {
+        $user = Auth::user();
+        return view('account.edit', compact('user'));
+    }
+
+    /**
+     * Update the user's account details.
+     */
+    public function updateAccount(Request $request)
+    {
+        $user = Auth::user();
+        
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'current_password' => 'nullable|string',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        // Update basic info
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+        ]);
+
+        // Update password if provided
+        if ($request->password) {
+            if (!$request->current_password || !Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'Current password is incorrect.']);
+            }
+            
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
+
+        return redirect()->route('account.edit')->with('success', 'Account updated successfully!');
     }
 }

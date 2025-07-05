@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileSeeder extends Seeder
@@ -14,12 +15,42 @@ class ProfileSeeder extends Seeder
      */
     public function run(): void
     {
+        // Get roles for assignment
+        $adminRole = Role::where('name', 'admin')->first();
+        $foundingMemberRole = Role::where('name', 'founding_member')->first();
+        $memberRole = Role::where('name', 'member')->first();
+
         // Create sample users with profiles
         $users = [
             [
-                'name' => 'Amina Walker',
+                'first_name' => 'Admin',
+                'last_name' => 'User',
+                'email' => 'admin@embiz.com',
+                'password' => Hash::make('password'),
+                'role_id' => $adminRole?->id,
+                'profile' => [
+                    'first_name' => 'Admin',
+                    'last_name' => 'User',
+                    'title' => 'System Administrator',
+                    'company' => 'Embiz',
+                    'bio' => 'System administrator with full access to manage the platform.',
+                    'location' => 'Remote',
+                    'profile_type' => 'entrepreneur',
+                    'interests' => ['administration', 'system management'],
+                    'skills' => ['system administration', 'user management'],
+                    'portfolio_count' => 0,
+                    'profile_views' => 50,
+                    'is_founding_member' => false,
+                    'is_verified' => true,
+                    'is_active' => true,
+                ]
+            ],
+            [
+                'first_name' => 'Amina',
+                'last_name' => 'Walker',
                 'email' => 'amina@example.com',
                 'password' => Hash::make('password'),
+                'role_id' => $foundingMemberRole?->id,
                 'profile' => [
                     'first_name' => 'Amina',
                     'last_name' => 'Walker',
@@ -38,9 +69,11 @@ class ProfileSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Kemi Robinson',
+                'first_name' => 'Kemi',
+                'last_name' => 'Robinson',
                 'email' => 'kemi@example.com',
                 'password' => Hash::make('password'),
+                'role_id' => $foundingMemberRole?->id,
                 'profile' => [
                     'first_name' => 'Kemi',
                     'last_name' => 'Robinson',
@@ -59,9 +92,11 @@ class ProfileSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Chantelle Nkrumah',
+                'first_name' => 'Chantelle',
+                'last_name' => 'Nkrumah',
                 'email' => 'chantelle@example.com',
                 'password' => Hash::make('password'),
+                'role_id' => $foundingMemberRole?->id,
                 'profile' => [
                     'first_name' => 'Chantelle',
                     'last_name' => 'Nkrumah',
@@ -80,9 +115,11 @@ class ProfileSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Marcus Johnson',
+                'first_name' => 'Marcus',
+                'last_name' => 'Johnson',
                 'email' => 'marcus@example.com',
                 'password' => Hash::make('password'),
+                'role_id' => $memberRole?->id,
                 'profile' => [
                     'first_name' => 'Marcus',
                     'last_name' => 'Johnson',
@@ -101,9 +138,11 @@ class ProfileSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Jasmine Williams',
+                'first_name' => 'Jasmine',
+                'last_name' => 'Williams',
                 'email' => 'jasmine@example.com',
                 'password' => Hash::make('password'),
+                'role_id' => $memberRole?->id,
                 'profile' => [
                     'first_name' => 'Jasmine',
                     'last_name' => 'Williams',
@@ -125,9 +164,11 @@ class ProfileSeeder extends Seeder
 
         foreach ($users as $userData) {
             $user = User::create([
-                'name' => $userData['name'],
+                'first_name' => $userData['first_name'],
+                'last_name' => $userData['last_name'],
                 'email' => $userData['email'],
                 'password' => $userData['password'],
+                'role_id' => $userData['role_id'],
                 'email_verified_at' => now(),
             ]);
 

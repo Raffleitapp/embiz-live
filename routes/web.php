@@ -30,11 +30,33 @@ Route::middleware('auth')->group(function () {
     Route::delete('/dashboard/users/{user}', [DashboardController::class, 'deleteUser'])->name('dashboard.delete-user');
     Route::get('/dashboard/search-members', [DashboardController::class, 'searchMembers'])->name('dashboard.search-members');
     
+    // Settings Routes
+    Route::get('/dashboard/settings', [DashboardController::class, 'settings'])->name('dashboard.settings');
+    Route::post('/dashboard/settings', [DashboardController::class, 'updateSettings'])->name('dashboard.update-settings');
+    
+    // Activity Logs Routes
+    Route::get('/dashboard/activity-logs', [DashboardController::class, 'activityLogs'])->name('dashboard.activity-logs');
+    
+    // Roles & Permissions Routes
+    Route::get('/dashboard/roles-permissions', [DashboardController::class, 'rolesPermissions'])->name('dashboard.roles-permissions');
+    Route::post('/dashboard/roles/create', [DashboardController::class, 'createRole'])->name('dashboard.create-role');
+    Route::get('/dashboard/roles/{role}/edit', [DashboardController::class, 'editRole'])->name('dashboard.edit-role');
+    Route::put('/dashboard/roles/{role}/update', [DashboardController::class, 'updateRole'])->name('dashboard.update-role');
+    Route::post('/dashboard/roles/{role}/delete', [DashboardController::class, 'deleteRole'])->name('dashboard.delete-role');
+    
+    // Support/Help Routes
+    Route::get('/dashboard/support', [DashboardController::class, 'support'])->name('dashboard.support');
+    Route::post('/dashboard/support/ticket', [DashboardController::class, 'createSupportTicket'])->name('dashboard.create-support-ticket');
+    
     // User Profile Routes
     Route::get('/user-profile', [UserProfileController::class, 'showCurrentUser'])->name('user-profile');
     Route::get('/user-profile/{user}', [UserProfileController::class, 'show'])->name('user-profile.show');
     Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit-form');
     Route::post('/profile/update', [UserProfileController::class, 'update'])->name('profile.update-form');
+    
+    // User account management
+    Route::get('/account/edit', [UserProfileController::class, 'editAccount'])->name('account.edit');
+    Route::post('/account/update', [UserProfileController::class, 'updateAccount'])->name('account.update');
     
     // Opportunity Routes
     Route::get('/opportunities', [OpportunityController::class, 'index'])->name('opportunities.index');
