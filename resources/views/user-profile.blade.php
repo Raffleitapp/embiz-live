@@ -70,7 +70,6 @@
                                         <span>{{ $user->profile->location }}</span>
                                     </div>
                                 @endif
-                                </div>
                                 
                                 <!-- Show interests/skills -->
                                 @if($user->profile && $user->profile->interests)
@@ -91,7 +90,8 @@
                                     <button class="px-4 py-2 border-2 font-medium rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm" 
                                             style="border-color: #006C5F; color: #006C5F;">
                                         <i class='bx bx-message-dots mr-2'></i>Message
-                                </button>
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     </div>
