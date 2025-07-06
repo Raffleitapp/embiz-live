@@ -340,5 +340,9 @@ document.getElementById('responseForm').addEventListener('submit', function(e) {
 function viewResponses(messageId) {
     window.location.href = `/messages/${messageId}/investment-responses`;
 }
+
+function viewBroadcastResponses(threadId) {
+    window.location.href = `/messages/broadcast/${threadId}/investment-responses`;
+}
 </script>
 @endsection

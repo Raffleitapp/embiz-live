@@ -106,7 +106,10 @@ Route::middleware('auth')->group(function () {
     })->middleware('admin')->name('messages.create-investment-broadcast-form');
     Route::post('/messages/{message}/respond-investment', [MessageController::class, 'respondToInvestment'])->name('messages.respond-investment');
     Route::put('/messages/{message}/update-investment-response', [MessageController::class, 'updateInvestmentResponse'])->name('messages.update-investment-response');
-    Route::get('/messages/{message}/investment-responses', [MessageController::class, 'getInvestmentResponses'])->middleware('admin')->name('messages.investment-responses');
+    Route::get('/messages/{message}/investment-responses', [MessageController::class, 'viewInvestmentResponses'])->middleware('admin')->name('messages.investment-responses');
+    Route::get('/messages/broadcast/{threadId}/investment-responses', [MessageController::class, 'viewBroadcastInvestmentResponses'])->middleware('admin')->name('messages.broadcast-investment-responses');
+    Route::get('/messages/{message}/investment-responses-api', [MessageController::class, 'getInvestmentResponses'])->middleware('admin')->name('messages.investment-responses-api');
+    Route::get('/messages/investment-stats', [MessageController::class, 'getInvestmentStats'])->middleware('admin')->name('messages.investment-stats');
     Route::post('/messages/create-investment-broadcast', [MessageController::class, 'createInvestmentBroadcast'])->middleware('admin')->name('messages.create-investment-broadcast');
 });
 

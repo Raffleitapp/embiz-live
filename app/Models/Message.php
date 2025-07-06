@@ -208,4 +208,50 @@ class Message extends Model
             'founding_member_interest_rate' => $foundingMemberTotal > 0 ? ($foundingMemberInterested / $foundingMemberTotal) * 100 : 0,
         ];
     }
+
+    /**
+     * Get comprehensive response statistics for admin.
+     */
+    public function getDetailedResponseStats()
+    {
+        $totalResponses = $this->interests()->count();
+        $interestedCount = $this->interestedResponses()->count();
+        $notInterestedCount = $this->notInterestedResponses()->count();
+        $foundingMemberInterested = $this->foundingMemberResponses()->interested()->count();
+        $foundingMemberTotal = $this->foundingMemberResponses()->count();
+        
+        // Get investment amounts
+        $investmentAmounts = $this->interests()->whereNotNull('investment_amount')->get();
+        $totalInvestmentAmount = $investmentAmounts->sum('investment_amount');
+        $averageInvestmentAmount = $investmentAmounts->count() > 0 ? $totalInvestmentAmount / $investmentAmounts->count() : 0;
+        
+        return [
+            'total_responses' => $totalResponses,
+            'interested_count' => $interestedCount,
+            'not_interested_count' => $notInterestedCount,
+            'founding_member_interested' => $foundingMemberInterested,
+            'founding_member_total' => $foundingMemberTotal,
+            'interest_rate' => $totalResponses > 0 ? ($interestedCount / $totalResponses) * 100 : 0,
+            'founding_member_interest_rate' => $foundingMemberTotal > 0 ? ($foundingMemberInterested / $foundingMemberTotal) * 100 : 0,
+            'total_investment_amount' => $totalInvestmentAmount,
+            'average_investment_amount' => $averageInvestmentAmount,
+            'investment_response_count' => $investmentAmounts->count(),
+        ];
+    }
+
+    /**
+     * Check if message has any responses.
+     */
+    public function hasResponses()
+    {
+        return $this->interests()->count() > 0;
+    }
+
+    /**
+     * Get formatted date for display.
+     */
+    public function getFormattedDateAttribute()
+    {
+        return $this->created_at ? $this->created_at->format('M j, Y g:i A') : 'No date';
+    }
 }

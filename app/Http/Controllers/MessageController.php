@@ -40,6 +40,8 @@ class MessageController extends Controller
                     // Create a representative message for the broadcast
                     $broadcastMessage = $firstMessage->replicate();
                     $broadcastMessage->id = $firstMessage->id;
+                    $broadcastMessage->created_at = $firstMessage->created_at;
+                    $broadcastMessage->updated_at = $firstMessage->updated_at;
                     $broadcastMessage->recipient_count = $threadMessages->count();
                     $broadcastMessage->all_recipients = $threadMessages->pluck('recipient.name')->toArray();
                     $broadcastMessage->is_broadcast = true;
@@ -488,5 +490,190 @@ class MessageController extends Controller
         }
 
         return $query->get();
+    }
+
+    /**
+     * View investment message responses (Admin only).
+     */
+    public function viewInvestmentResponses(Message $message)
+    {
+        $user = Auth::user();
+        
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized access');
+        }
+
+        $responses = $message->interests()
+                           ->with(['user', 'user.profile'])
+                           ->orderBy('responded_at', 'desc')
+                           ->get();
+
+        $stats = $message->getResponseStats();
+
+        return view('messages.investment-responses', compact('message', 'responses', 'stats'));
+    }
+
+    /**
+     * View broadcast investment message responses (Admin only).
+     */
+    public function viewBroadcastInvestmentResponses($threadId)
+    {
+        $user = Auth::user();
+        
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized access');
+        }
+
+        // Get all messages in the thread
+        $threadMessages = Message::where('thread_id', $threadId)
+                                ->with(['sender', 'recipient'])
+                                ->orderBy('created_at', 'desc')
+                                ->get();
+
+        if ($threadMessages->isEmpty()) {
+            abort(404, 'Broadcast message not found');
+        }
+
+        $broadcastMessage = $threadMessages->first();
+        $recipientCount = $threadMessages->count();
+
+        // Get all responses from all messages in the thread
+        $responses = collect();
+        $totalResponses = 0;
+        $interestedCount = 0;
+        $notInterestedCount = 0;
+        $foundingMemberInterested = 0;
+        $foundingMemberTotal = 0;
+        $totalInvestmentAmount = 0;
+        $investmentResponseCount = 0;
+
+        foreach ($threadMessages as $message) {
+            $messageResponses = $message->interests()
+                                      ->with(['user', 'user.profile'])
+                                      ->get();
+            
+            $responses = $responses->merge($messageResponses);
+            
+            // Calculate stats
+            $totalResponses += $messageResponses->count();
+            $interestedCount += $messageResponses->where('response_type', 'interested')->count();
+            $notInterestedCount += $messageResponses->where('response_type', 'not_interested')->count();
+            
+            foreach ($messageResponses as $response) {
+                if ($response->user->isFoundingMember()) {
+                    $foundingMemberTotal++;
+                    if ($response->response_type === 'interested') {
+                        $foundingMemberInterested++;
+                    }
+                }
+                
+                if ($response->investment_amount) {
+                    $totalInvestmentAmount += $response->investment_amount;
+                    $investmentResponseCount++;
+                }
+            }
+        }
+
+        // Sort responses by responded_at
+        $responses = $responses->sortByDesc('responded_at');
+
+        // Calculate statistics
+        $stats = [
+            'total_responses' => $totalResponses,
+            'interested_count' => $interestedCount,
+            'not_interested_count' => $notInterestedCount,
+            'founding_member_interested' => $foundingMemberInterested,
+            'founding_member_total' => $foundingMemberTotal,
+            'interest_rate' => $totalResponses > 0 ? ($interestedCount / $totalResponses) * 100 : 0,
+            'founding_member_interest_rate' => $foundingMemberTotal > 0 ? ($foundingMemberInterested / $foundingMemberTotal) * 100 : 0,
+        ];
+
+        $averageInvestmentAmount = $investmentResponseCount > 0 ? $totalInvestmentAmount / $investmentResponseCount : 0;
+
+        return view('messages.broadcast-investment-responses', compact(
+            'broadcastMessage', 
+            'responses', 
+            'stats', 
+            'recipientCount',
+            'totalInvestmentAmount',
+            'averageInvestmentAmount',
+            'investmentResponseCount'
+        ));
+    }
+
+    /**
+     * Get investment messages statistics for admin dashboard.
+     */
+    public function getInvestmentStats()
+    {
+        $user = Auth::user();
+        
+        if (!$user->isAdmin()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        // Get all investment messages
+        $investmentMessages = Message::where('message_type', 'investment')
+                                   ->with(['interests', 'sender'])
+                                   ->orderBy('created_at', 'desc')
+                                   ->get();
+
+        // Group by thread for broadcast messages
+        $broadcastStats = [];
+        $threadGroups = $investmentMessages->groupBy('thread_id');
+        
+        foreach ($threadGroups as $threadId => $threadMessages) {
+            if ($threadMessages->count() > 1) {
+                $firstMessage = $threadMessages->first();
+                $stats = $this->calculateThreadStats($threadMessages);
+                
+                $broadcastStats[] = [
+                    'thread_id' => $threadId,
+                    'subject' => $firstMessage->subject,
+                    'sender' => $firstMessage->sender->name,
+                    'created_at' => $firstMessage->created_at,
+                    'recipient_count' => $threadMessages->count(),
+                    'response_count' => $stats['total_responses'],
+                    'interested_count' => $stats['interested_count'],
+                    'response_rate' => ($stats['total_responses'] / $threadMessages->count()) * 100,
+                    'interest_rate' => $stats['interest_rate'],
+                    'total_investment_amount' => $stats['total_investment_amount'],
+                ];
+            }
+        }
+
+        return response()->json([
+            'broadcast_stats' => $broadcastStats,
+            'total_broadcasts' => count($broadcastStats),
+            'total_recipients' => $investmentMessages->count(),
+            'total_responses' => $investmentMessages->sum(function($msg) { return $msg->interests->count(); }),
+        ]);
+    }
+
+    /**
+     * Calculate statistics for a thread of messages.
+     */
+    private function calculateThreadStats($threadMessages)
+    {
+        $totalResponses = 0;
+        $interestedCount = 0;
+        $notInterestedCount = 0;
+        $totalInvestmentAmount = 0;
+
+        foreach ($threadMessages as $message) {
+            $responses = $message->interests;
+            $totalResponses += $responses->count();
+            $interestedCount += $responses->where('response_type', 'interested')->count();
+            $notInterestedCount += $responses->where('response_type', 'not_interested')->count();
+            $totalInvestmentAmount += $responses->sum('investment_amount');
+        }
+
+        return [
+            'total_responses' => $totalResponses,
+            'interested_count' => $interestedCount,
+            'not_interested_count' => $notInterestedCount,
+            'interest_rate' => $totalResponses > 0 ? ($interestedCount / $totalResponses) * 100 : 0,
+            'total_investment_amount' => $totalInvestmentAmount,
+        ];
     }
 }

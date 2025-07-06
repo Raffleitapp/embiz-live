@@ -253,7 +253,14 @@ class User extends Authenticatable
      */
     public function getInitialsAttribute()
     {
-        return substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1);
+        $names = explode(' ', $this->name);
+        $initials = '';
+        
+        foreach ($names as $name) {
+            $initials .= strtoupper(substr($name, 0, 1));
+        }
+        
+        return $initials;
     }
 
     /**
@@ -279,7 +286,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the message interests for the user.
+     * Get message interests for this user.
      */
     public function messageInterests()
     {
