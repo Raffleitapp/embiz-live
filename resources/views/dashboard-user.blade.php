@@ -4,7 +4,7 @@
 
 @section('header-actions')
     <div class="flex items-center space-x-3">
-        <a href="{{ route('opportunities.create') }}" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium">
+        <a href="{{ route('dashboard.opportunities.create') }}" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium">
             <i class="bx bx-plus mr-2"></i>Create Opportunity
         </a>
     </div>
@@ -111,7 +111,7 @@
             <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                 <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
                 <div class="grid grid-cols-2 gap-3">
-                    <a href="{{ route('opportunities.index') }}"
+                    <a href="{{ route('dashboard.opportunities') }}"
                         class="flex flex-col sm:flex-row items-center sm:space-x-3 p-3 sm:p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
                         <div class="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mb-2 sm:mb-0">
                             <i class='bx bx-search text-blue-600 text-sm sm:text-base'></i>

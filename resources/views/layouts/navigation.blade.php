@@ -1,4 +1,31 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    <style>
+        /* Enhanced dropdown styling */
+        .dropdown-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dropdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .dropdown-item:hover::before {
+            left: 100%;
+        }
+        
+        .profile-dropdown {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+    </style>
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -17,6 +44,9 @@
                     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out' }}">
                         {{ __('Dashboard') }}
                     </a>
+                    <a href="{{ route('dashboard.opportunities') }}" class="{{ request()->routeIs('dashboard.opportunities*') ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out' }}">
+                        {{ __('Opportunities') }}
+                    </a>
                 </div>
             </div>
 
@@ -24,11 +54,18 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
                     <div @click="open = ! open">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 hover:bg-gray-50">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center">
+                                    <span class="text-white font-medium text-xs">{{ Auth::user()->initials }}</span>
+                                </div>
+                                <div class="hidden md:block">
+                                    <div class="text-sm font-medium text-gray-900">{{ Auth::user()->name }}</div>
+                                </div>
+                            </div>
 
                             <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <svg class="fill-current h-4 w-4 transition-transform duration-200" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
@@ -42,24 +79,82 @@
                             x-transition:leave="transition ease-in duration-75"
                             x-transition:leave-start="opacity-100 scale-100"
                             x-transition:leave-end="opacity-0 scale-95"
-                            class="absolute z-50 mt-2 w-48 rounded-md shadow-lg ltr:origin-top-right rtl:origin-top-left end-0"
+                            class="absolute z-50 mt-2 w-64 rounded-lg shadow-lg ltr:origin-top-right rtl:origin-top-left end-0 bg-white ring-1 ring-black ring-opacity-5 profile-dropdown"
                             style="display: none;"
                             @click="open = false">
-                        <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white">
-                            <a href="{{ route('profile.edit') }}" class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
-                                {{ __('Profile') }}
-                            </a>
+                        <div class="py-2">
+                            <!-- User Info Header -->
+                            <div class="px-4 py-3 border-b border-gray-100">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white font-medium text-sm">{{ Auth::user()->initials }}</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-medium text-gray-900 truncate">{{ Auth::user()->name }}</p>
+                                        <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</p>
+                                        <p class="text-xs text-teal-600 font-medium mt-1">{{ Auth::user()->role ? Auth::user()->role->display_name : 'User' }}</p>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-
-                                <a href="{{ route('logout') }}" class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                            <!-- Navigation Links -->
+                            <div class="py-2">
+                                <a href="{{ route('user-profile') }}" class="dropdown-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+                                    <i class='bx bx-user mr-3 text-gray-400 text-base'></i>
+                                    <span>View Profile</span>
                                 </a>
-                            </form>
+                                
+                                <a href="{{ route('dashboard') }}" class="dropdown-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+                                    <i class='bx bx-grid-alt mr-3 text-gray-400 text-base'></i>
+                                    <span>Dashboard</span>
+                                </a>
+                                
+                                <a href="{{ route('dashboard.opportunities') }}" class="dropdown-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+                                    <i class='bx bx-briefcase mr-3 text-gray-400 text-base'></i>
+                                    <span>Opportunities</span>
+                                </a>
+                                
+                                <a href="{{ route('messages.index') }}" class="dropdown-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+                                    <i class='bx bx-message-dots mr-3 text-gray-400 text-base'></i>
+                                    <span>Messages</span>
+                                </a>
+                                
+                                <a href="{{ route('network.index') }}" class="dropdown-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+                                    <i class='bx bx-network-chart mr-3 text-gray-400 text-base'></i>
+                                    <span>Network</span>
+                                </a>
+                            </div>
+
+                            <!-- Settings Section -->
+                            <div class="border-t border-gray-100 py-2">
+                                <a href="{{ route('account.edit') }}" class="dropdown-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+                                    <i class='bx bx-cog mr-3 text-gray-400 text-base'></i>
+                                    <span>Account Settings</span>
+                                </a>
+                                
+                                @if(Auth::user()->isAdmin())
+                                <a href="{{ route('dashboard.settings') }}" class="dropdown-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+                                    <i class='bx bx-shield mr-3 text-gray-400 text-base'></i>
+                                    <span>Admin Settings</span>
+                                </a>
+                                @endif
+                                
+                                <a href="{{ route('dashboard.support') }}" class="dropdown-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200">
+                                    <i class='bx bx-help-circle mr-3 text-gray-400 text-base'></i>
+                                    <span>Support & Help</span>
+                                </a>
+                            </div>
+
+                            <!-- Logout -->
+                            <div class="border-t border-gray-100 py-2">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-200">
+                                        <i class='bx bx-log-out mr-3 text-red-400 text-base'></i>
+                                        <span>Sign Out</span>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,29 +178,66 @@
             <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'block w-full ps-3 pe-4 py-2 border-l-4 border-indigo-400 text-start text-base font-medium text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out' : 'block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out' }}">
                 {{ __('Dashboard') }}
             </a>
+            <a href="{{ route('dashboard.opportunities') }}" class="{{ request()->routeIs('dashboard.opportunities*') ? 'block w-full ps-3 pe-4 py-2 border-l-4 border-indigo-400 text-start text-base font-medium text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out' : 'block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out' }}">
+                {{ __('Opportunities') }}
+            </a>
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            <div class="px-4 pb-3 border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
+                        <span class="text-white font-medium text-sm">{{ Auth::user()->initials }}</span>
+                    </div>
+                    <div>
+                        <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                        <div class="text-xs text-teal-600 font-medium mt-1">{{ Auth::user()->role ? Auth::user()->role->display_name : 'User' }}</div>
+                    </div>
+                </div>
             </div>
 
             <div class="mt-3 space-y-1">
-                <a href="{{ route('profile.edit') }}" class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
-                    {{ __('Profile') }}
+                <a href="{{ route('user-profile') }}" class="flex items-center w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                    <i class='bx bx-user mr-3 text-gray-400'></i>
+                    <span>View Profile</span>
+                </a>
+                
+                <a href="{{ route('messages.index') }}" class="flex items-center w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                    <i class='bx bx-message-dots mr-3 text-gray-400'></i>
+                    <span>Messages</span>
+                </a>
+                
+                <a href="{{ route('network.index') }}" class="flex items-center w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                    <i class='bx bx-network-chart mr-3 text-gray-400'></i>
+                    <span>Network</span>
+                </a>
+                
+                <a href="{{ route('account.edit') }}" class="flex items-center w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                    <i class='bx bx-cog mr-3 text-gray-400'></i>
+                    <span>Account Settings</span>
+                </a>
+                
+                @if(Auth::user()->isAdmin())
+                <a href="{{ route('dashboard.settings') }}" class="flex items-center w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                    <i class='bx bx-shield mr-3 text-gray-400'></i>
+                    <span>Admin Settings</span>
+                </a>
+                @endif
+                
+                <a href="{{ route('dashboard.support') }}" class="flex items-center w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                    <i class='bx bx-help-circle mr-3 text-gray-400'></i>
+                    <span>Support & Help</span>
                 </a>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <a href="{{ route('logout') }}" class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </a>
+                    <button type="submit" class="flex items-center w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-red-600 hover:text-red-800 hover:bg-red-50 hover:border-red-300 focus:outline-none focus:text-red-800 focus:bg-red-50 focus:border-red-300 transition duration-150 ease-in-out">
+                        <i class='bx bx-log-out mr-3 text-red-400'></i>
+                        <span>Sign Out</span>
+                    </button>
                 </form>
             </div>
         </div>

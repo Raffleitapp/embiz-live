@@ -41,6 +41,22 @@
                             <span class="font-medium">Dashboard</span>
                         </a>
                         
+                        <!-- Opportunities Section -->
+                        <div class="relative">
+                            <button class="flex items-center justify-between w-full px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base {{ request()->routeIs('dashboard.opportunities*') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg" onclick="toggleSubmenu('opportunities')">
+                                <div class="flex items-center space-x-1 md:space-x-2 lg:space-x-3">
+                                    <i class='bx bx-briefcase text-base md:text-lg'></i>
+                                    <span class="font-medium">Opportunities</span>
+                                </div>
+                                <i class='bx bx-chevron-down text-xs md:text-sm transform transition-transform {{ request()->routeIs('dashboard.opportunities*') ? 'rotate-180' : '' }}' id="opportunities-chevron"></i>
+                            </button>
+                            <div class="mt-1 lg:mt-2 ml-3 md:ml-4 lg:ml-6 space-y-1 {{ request()->routeIs('dashboard.opportunities*') ? 'block' : 'hidden' }}" id="opportunities-submenu">
+                                <a href="{{ route('dashboard.opportunities') }}" class="block px-1.5 md:px-2 lg:px-3 py-1 lg:py-2 text-xs lg:text-sm {{ request()->routeIs('dashboard.opportunities') && !request()->routeIs('dashboard.opportunities.*') ? 'text-teal-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">All Opportunities</a>
+                                <a href="{{ route('dashboard.opportunities.create') }}" class="block px-1.5 md:px-2 lg:px-3 py-1 lg:py-2 text-xs lg:text-sm {{ request()->routeIs('dashboard.opportunities.create') ? 'text-teal-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">Create New</a>
+                                <a href="{{ route('dashboard.opportunities.mine') }}" class="block px-1.5 md:px-2 lg:px-3 py-1 lg:py-2 text-xs lg:text-sm {{ request()->routeIs('dashboard.opportunities.mine') ? 'text-teal-600 font-medium' : 'text-gray-600 hover:text-gray-900' }}">My Opportunities</a>
+                            </div>
+                        </div>
+                        
                         @if(auth()->user()->isAdmin())
                         <div class="relative">
                             <button class="flex items-center justify-between w-full px-1.5 md:px-2 lg:px-3 py-1.5 md:py-2 text-xs md:text-sm lg:text-base {{ request()->routeIs('dashboard.members*') || request()->routeIs('dashboard.add-member') ? 'text-teal-600 bg-teal-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-lg" onclick="toggleSubmenu('members')">
@@ -192,7 +208,7 @@
                                             Account Settings
                                         </a>
                                         
-                                        <a href="{{ route('profile.edit-form') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                        <a href="{{ route('account.edit') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                                             <i class='bx bx-edit mr-3 text-gray-400'></i>
                                             Edit Profile
                                         </a>

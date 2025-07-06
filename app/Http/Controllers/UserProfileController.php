@@ -34,7 +34,7 @@ class UserProfileController extends Controller
         $user = Auth::user();
         $user->load('profile');
         
-        return view('profile.edit', compact('user'));
+        return view('account.edit', compact('user'));
     }
 
     /**
@@ -55,6 +55,7 @@ class UserProfileController extends Controller
             'linkedin' => 'nullable|url|max:255',
             'twitter' => 'nullable|url|max:255',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'cover_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
             'profile_type' => 'required|in:entrepreneur,investor,affiliate,advisor',
             'interests' => 'nullable|array',
             'skills' => 'nullable|array',
@@ -79,6 +80,17 @@ class UserProfileController extends Controller
             $profileData['avatar'] = $path;
         }
 
+        // Handle cover photo upload
+        if ($request->hasFile('cover_photo')) {
+            // Delete old cover photo if exists
+            if ($user->profile && $user->profile->cover_photo) {
+                Storage::disk('public')->delete($user->profile->cover_photo);
+            }
+            
+            $path = $request->file('cover_photo')->store('cover-photos', 'public');
+            $profileData['cover_photo'] = $path;
+        }
+
         // Create or update profile
         if ($user->profile) {
             $user->profile->update($profileData);
@@ -92,7 +104,7 @@ class UserProfileController extends Controller
         // Log the activity
         $user->logActivity('Updated profile', 'User updated their profile information', 'profile');
 
-        return redirect()->route('profile.edit-form')->with('success', 'Profile updated successfully!');
+        return redirect()->route('account.edit')->with('success', 'Profile updated successfully!');
     }
 
     /**
@@ -199,6 +211,7 @@ class UserProfileController extends Controller
     public function editAccount()
     {
         $user = Auth::user();
+        $user->load('profile');
         return view('account.edit', compact('user'));
     }
 
@@ -240,5 +253,44 @@ class UserProfileController extends Controller
         $user->logActivity('Updated account', 'User updated their account information', 'account');
 
         return redirect()->route('account.edit')->with('success', 'Account updated successfully!');
+    }
+
+    /**
+     * Delete the user's account.
+     */
+    public function destroy(Request $request)
+    {
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        // Delete user's profile and associated files
+        if ($user->profile) {
+            // Delete avatar if exists
+            if ($user->profile->avatar) {
+                Storage::disk('public')->delete($user->profile->avatar);
+            }
+            
+            // Delete cover photo if exists
+            if ($user->profile->cover_photo) {
+                Storage::disk('public')->delete($user->profile->cover_photo);
+            }
+            
+            $user->profile->delete();
+        }
+
+        // Log the activity before deletion
+        $user->logActivity('Deleted account', 'User deleted their account', 'account');
+
+        Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'Your account has been deleted successfully.');
     }
 }

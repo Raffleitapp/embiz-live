@@ -188,7 +188,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('opportunities.create') }}"
+                <a href="{{ route('dashboard.opportunities.create') }}"
                     class="flex flex-col sm:flex-row items-center sm:space-x-3 p-3 sm:p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
                     <div class="w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mb-2 sm:mb-0">
                         <i class='bx bx-briefcase text-green-600 text-sm sm:text-base'></i>

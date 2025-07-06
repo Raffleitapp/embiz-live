@@ -16,10 +16,6 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
     // Dashboard Routes
     Route::get('/dashboard/members', [DashboardController::class, 'members'])->middleware('admin')->name('dashboard.members');
     Route::get('/dashboard/add-member', [DashboardController::class, 'addMember'])->middleware('admin')->name('dashboard.add-member');
@@ -29,6 +25,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/users/{user}/toggle-status', [DashboardController::class, 'toggleUserStatus'])->middleware('admin')->name('dashboard.toggle-user-status');
     Route::delete('/dashboard/users/{user}', [DashboardController::class, 'deleteUser'])->middleware('admin')->name('dashboard.delete-user');
     Route::get('/dashboard/search-members', [DashboardController::class, 'searchMembers'])->middleware('admin')->name('dashboard.search-members');
+    
+    // Dashboard Opportunity Routes
+    Route::get('/dashboard/opportunities', [OpportunityController::class, 'index'])->name('dashboard.opportunities');
+    Route::get('/dashboard/opportunities/create', [OpportunityController::class, 'create'])->name('dashboard.opportunities.create');
+    Route::post('/dashboard/opportunities', [OpportunityController::class, 'store'])->name('dashboard.opportunities.store');
+    Route::get('/dashboard/opportunities/{opportunity}', [OpportunityController::class, 'show'])->name('dashboard.opportunities.show');
+    Route::get('/dashboard/opportunities/{opportunity}/edit', [OpportunityController::class, 'edit'])->name('dashboard.opportunities.edit');
+    Route::put('/dashboard/opportunities/{opportunity}', [OpportunityController::class, 'update'])->name('dashboard.opportunities.update');
+    Route::delete('/dashboard/opportunities/{opportunity}', [OpportunityController::class, 'destroy'])->name('dashboard.opportunities.destroy');
+    Route::post('/dashboard/opportunities/{opportunity}/apply', [OpportunityController::class, 'apply'])->name('dashboard.opportunities.apply');
+    Route::get('/dashboard/my-opportunities', [OpportunityController::class, 'myOpportunities'])->name('dashboard.opportunities.mine');
     
     // Settings Routes
     Route::get('/dashboard/settings', [DashboardController::class, 'settings'])->middleware('admin')->name('dashboard.settings');
@@ -51,23 +58,12 @@ Route::middleware('auth')->group(function () {
     // User Profile Routes
     Route::get('/user-profile', [UserProfileController::class, 'showCurrentUser'])->name('user-profile');
     Route::get('/user-profile/{user}', [UserProfileController::class, 'show'])->name('user-profile.show');
-    Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('profile.edit-form');
-    Route::post('/profile/update', [UserProfileController::class, 'update'])->name('profile.update-form');
     
-    // User account management
+    // User account management (includes profile editing and account deletion)
     Route::get('/account/edit', [UserProfileController::class, 'editAccount'])->name('account.edit');
     Route::post('/account/update', [UserProfileController::class, 'updateAccount'])->name('account.update');
-    
-    // Opportunity Routes
-    Route::get('/opportunities', [OpportunityController::class, 'index'])->name('opportunities.index');
-    Route::get('/opportunities/create', [OpportunityController::class, 'create'])->name('opportunities.create');
-    Route::post('/opportunities', [OpportunityController::class, 'store'])->name('opportunities.store');
-    Route::get('/opportunities/{opportunity}', [OpportunityController::class, 'show'])->name('opportunities.show');
-    Route::get('/opportunities/{opportunity}/edit', [OpportunityController::class, 'edit'])->name('opportunities.edit');
-    Route::put('/opportunities/{opportunity}', [OpportunityController::class, 'update'])->name('opportunities.update');
-    Route::delete('/opportunities/{opportunity}', [OpportunityController::class, 'destroy'])->name('opportunities.destroy');
-    Route::post('/opportunities/{opportunity}/apply', [OpportunityController::class, 'apply'])->name('opportunities.apply');
-    Route::get('/my-opportunities', [OpportunityController::class, 'myOpportunities'])->name('opportunities.mine');
+    Route::patch('/account/profile', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/account/delete', [UserProfileController::class, 'destroy'])->name('account.destroy');
     
     // Network Routes
     Route::get('/network', [NetworkController::class, 'index'])->name('network.index');

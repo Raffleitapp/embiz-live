@@ -52,7 +52,7 @@ class OpportunityController extends Controller
                               ->orderBy('created_at', 'desc')
                               ->paginate(12);
 
-        return response()->json($opportunities);
+        return view('opportunities.index', compact('opportunities'));
     }
 
     /**
@@ -102,10 +102,7 @@ class OpportunityController extends Controller
 
         $opportunity = Opportunity::create($data);
 
-        return response()->json([
-            'message' => 'Opportunity created successfully!',
-            'opportunity' => $opportunity->load(['user', 'user.profile'])
-        ], 201);
+        return redirect()->route('opportunities.show', $opportunity)->with('success', 'Opportunity created successfully!');
     }
 
     /**
@@ -120,7 +117,7 @@ class OpportunityController extends Controller
             $opportunity->incrementViews();
         }
 
-        return response()->json($opportunity);
+        return view('opportunities.show', compact('opportunity'));
     }
 
     /**
@@ -177,10 +174,7 @@ class OpportunityController extends Controller
 
         $opportunity->update($data);
 
-        return response()->json([
-            'message' => 'Opportunity updated successfully!',
-            'opportunity' => $opportunity->load(['user', 'user.profile'])
-        ]);
+        return redirect()->route('opportunities.show', $opportunity)->with('success', 'Opportunity updated successfully!');
     }
 
     /**
@@ -197,7 +191,7 @@ class OpportunityController extends Controller
 
         $opportunity->delete();
 
-        return response()->json(['message' => 'Opportunity deleted successfully!']);
+        return redirect()->route('opportunities.index')->with('success', 'Opportunity deleted successfully!');
     }
 
     /**
@@ -230,10 +224,7 @@ class OpportunityController extends Controller
         // For now, we'll just increment the applications counter
         $opportunity->incrementApplications();
 
-        return response()->json([
-            'message' => 'Application submitted successfully!',
-            'opportunity' => $opportunity
-        ]);
+        return redirect()->route('opportunities.show', $opportunity)->with('success', 'Application submitted successfully!');
     }
 
     /**
@@ -246,6 +237,6 @@ class OpportunityController extends Controller
                                    ->orderBy('created_at', 'desc')
                                    ->paginate(10);
 
-        return response()->json($opportunities);
+        return view('opportunities.my-opportunities', compact('opportunities'));
     }
 }

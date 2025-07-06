@@ -77,7 +77,7 @@
                                         <i class='bx bx-message mr-2'></i>Messages
                                     </a>
                                     <div class="border-t border-gray-200 my-1"></div>
-                                    <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <a href="{{ route('account.edit') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                                         <i class='bx bx-cog mr-2'></i>Settings
                                     </a>
                                     <form method="POST" action="{{ route('logout') }}" class="block">

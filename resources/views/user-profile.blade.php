@@ -103,7 +103,7 @@
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-xl font-bold text-gray-900">About</h2>
                             @if(auth()->check() && auth()->id() === $user->id)
-                                <a href="{{ route('profile.edit-form') }}" class="text-teal-600 hover:text-teal-700 text-sm font-medium">
+                                <a href="{{ route('account.edit') }}" class="text-teal-600 hover:text-teal-700 text-sm font-medium">
                                     <i class='bx bx-edit mr-1'></i>Edit
                                 </a>
                             @endif
@@ -124,7 +124,7 @@
                                     @endif
                                 </p>
                                 @if(auth()->check() && auth()->id() === $user->id)
-                                    <a href="{{ route('profile.edit-form') }}" class="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
+                                    <a href="{{ route('account.edit') }}" class="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
                                         <i class='bx bx-plus mr-2'></i>Add About Section
                                     </a>
                                 @endif
