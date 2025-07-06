@@ -255,4 +255,50 @@ class User extends Authenticatable
     {
         return substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1);
     }
+
+    /**
+     * Update user name and sync with profile.
+     */
+    public function updateNameAndSync($firstName, $lastName)
+    {
+        // Update user model
+        $this->update([
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+        ]);
+
+        // Update profile if it exists
+        if ($this->profile) {
+            $this->profile->update([
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+            ]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the message interests for the user.
+     */
+    public function messageInterests()
+    {
+        return $this->hasMany(MessageInterest::class);
+    }
+
+    /**
+     * Check if user has responded to a specific message.
+     */
+    public function hasRespondedToMessage($messageId)
+    {
+        return $this->messageInterests()->where('message_id', $messageId)->exists();
+    }
+
+    /**
+     * Get user's response to a specific message.
+     */
+    public function getMessageResponse($messageId)
+    {
+        return $this->messageInterests()->where('message_id', $messageId)->first();
+    }
 }

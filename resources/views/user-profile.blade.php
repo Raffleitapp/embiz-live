@@ -100,16 +100,77 @@
                 <!-- About Section -->
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
                     <div class="p-6">
-                        <h2 class="text-xl font-bold text-gray-900 mb-4">About</h2>
-                        <p class="text-gray-700 leading-relaxed mb-4">
-                            Amina Walker is a mission-driven financial strategist passionate about empowering Black-led startups to secure capital and scale sustainably. With over a decade of experience in financial planning, investment readiness, and startup advisory, she has become a trusted guide for early-stage founders navigating the complex funding landscape.
-                        </p>
-                        <p class="text-gray-700 leading-relaxed mb-4">
-                            She has helped dozens of underrepresented entrepreneurs craft investor-ready financial models, pitch decks, and funding roadmaps. Amina is known for her ability to translate complex numbers into clear strategies, helping visionary leaders make informed, confident decisions about growth.
-                        </p>
-                        <p class="text-gray-700 leading-relaxed">
-                            Before co-founding this platform, Amina worked as a financial consultant for impact-focused VCs and incubators across North America. She's also a former startup founder herself, which gives her deep empathy for the real-world challenges of building a business from scratch.
-                        </p>
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-900">About</h2>
+                            @if(auth()->check() && auth()->id() === $user->id)
+                                <a href="{{ route('profile.edit-form') }}" class="text-teal-600 hover:text-teal-700 text-sm font-medium">
+                                    <i class='bx bx-edit mr-1'></i>Edit
+                                </a>
+                            @endif
+                        </div>
+                        
+                        @if($user->profile && $user->profile->bio)
+                            <div class="prose prose-gray max-w-none">
+                                <p class="text-gray-700 leading-relaxed whitespace-pre-line">{{ $user->profile->bio }}</p>
+                            </div>
+                        @else
+                            <div class="text-center py-8">
+                                <i class='bx bx-user text-gray-400 text-4xl mb-3'></i>
+                                <p class="text-gray-500 mb-4">
+                                    @if(auth()->check() && auth()->id() === $user->id)
+                                        You haven't added an about section yet.
+                                    @else
+                                        {{ $user->name }} hasn't added an about section yet.
+                                    @endif
+                                </p>
+                                @if(auth()->check() && auth()->id() === $user->id)
+                                    <a href="{{ route('profile.edit-form') }}" class="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
+                                        <i class='bx bx-plus mr-2'></i>Add About Section
+                                    </a>
+                                @endif
+                            </div>
+                        @endif
+                        
+                        <!-- Additional profile information -->
+                        @if($user->profile)
+                            <div class="mt-6 pt-6 border-t border-gray-200">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    @if($user->profile->website)
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <i class='bx bx-globe mr-2 text-gray-400'></i>
+                                            <a href="{{ $user->profile->website }}" target="_blank" class="text-teal-600 hover:text-teal-700 hover:underline">
+                                                {{ $user->profile->website }}
+                                            </a>
+                                        </div>
+                                    @endif
+                                    
+                                    @if($user->profile->linkedin)
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <i class='bx bxl-linkedin-square mr-2 text-gray-400'></i>
+                                            <a href="{{ $user->profile->linkedin }}" target="_blank" class="text-teal-600 hover:text-teal-700 hover:underline">
+                                                LinkedIn Profile
+                                            </a>
+                                        </div>
+                                    @endif
+                                    
+                                    @if($user->profile->twitter)
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <i class='bx bxl-twitter mr-2 text-gray-400'></i>
+                                            <a href="{{ $user->profile->twitter }}" target="_blank" class="text-teal-600 hover:text-teal-700 hover:underline">
+                                                Twitter Profile
+                                            </a>
+                                        </div>
+                                    @endif
+                                    
+                                    @if($user->profile->profile_type)
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <i class='bx bx-user-circle mr-2 text-gray-400'></i>
+                                            <span class="capitalize">{{ str_replace('_', ' ', $user->profile->profile_type) }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
 

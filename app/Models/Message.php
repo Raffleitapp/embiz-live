@@ -15,6 +15,7 @@ class Message extends Model
         'recipient_id',
         'subject',
         'message',
+        'message_type',
         'read_at',
         'is_important',
         'is_archived',
@@ -139,5 +140,67 @@ class Message extends Model
     public function scopeInThread($query, $threadId)
     {
         return $query->where('thread_id', $threadId);
+    }
+
+    /**
+     * Get the interests for this message.
+     */
+    public function interests()
+    {
+        return $this->hasMany(MessageInterest::class);
+    }
+
+    /**
+     * Get interested responses for this message.
+     */
+    public function interestedResponses()
+    {
+        return $this->hasMany(MessageInterest::class)->interested();
+    }
+
+    /**
+     * Get not interested responses for this message.
+     */
+    public function notInterestedResponses()
+    {
+        return $this->hasMany(MessageInterest::class)->notInterested();
+    }
+
+    /**
+     * Get founding member responses for this message.
+     */
+    public function foundingMemberResponses()
+    {
+        return $this->hasMany(MessageInterest::class)->foundingMembers();
+    }
+
+    /**
+     * Check if this message is an investment post.
+     */
+    public function isInvestmentPost()
+    {
+        return $this->sender && $this->sender->isAdmin();
+    }
+
+    /**
+     * Get response statistics for this message.
+     */
+    public function getResponseStats()
+    {
+        $totalResponses = $this->interests()->count();
+        $interestedCount = $this->interestedResponses()->count();
+        $notInterestedCount = $this->notInterestedResponses()->count();
+        $foundingMemberInterested = $this->foundingMemberResponses()->interested()->count();
+        $foundingMemberTotal = $this->foundingMemberResponses()->count();
+        
+        return [
+            'total_responses' => $totalResponses,
+            'interested_count' => $interestedCount,
+            'not_interested_count' => $notInterestedCount,
+            'founding_member_interested' => $foundingMemberInterested,
+            'founding_member_total' => $foundingMemberTotal,
+            'interest_rate' => $totalResponses > 0 ? ($interestedCount / $totalResponses) * 100 : 0,
+            'founding_member_interest_rate' => $foundingMemberTotal > 0 ? ($foundingMemberInterested / $foundingMemberTotal) * 100 : 0,
+        ];
     }
 }

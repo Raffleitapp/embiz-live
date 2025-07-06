@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
-@section('header')
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Profile') }}
-    </h2>
+@section('page-title', 'User profile')
+
+@section('header-icon')
+<i class="bx bx-plus-circle text-gray-600 text-lg sm:text-xl"></i>
 @endsection
 
 @section('content')

@@ -60,8 +60,11 @@ class UserProfileController extends Controller
             'skills' => 'nullable|array',
         ]);
 
+        // Update user's name in both User and Profile models
+        $user->updateNameAndSync($request->first_name, $request->last_name);
+
         $profileData = $request->only([
-            'first_name', 'last_name', 'title', 'company', 'bio', 'location',
+            'title', 'company', 'bio', 'location',
             'website', 'linkedin', 'twitter', 'profile_type', 'interests', 'skills'
         ]);
 
@@ -80,10 +83,16 @@ class UserProfileController extends Controller
         if ($user->profile) {
             $user->profile->update($profileData);
         } else {
+            // Include first_name and last_name for new profile creation
+            $profileData['first_name'] = $request->first_name;
+            $profileData['last_name'] = $request->last_name;
             $user->profile()->create($profileData);
         }
 
-        return redirect()->route('profile.edit')->with('success', 'Profile updated successfully!');
+        // Log the activity
+        $user->logActivity('Updated profile', 'User updated their profile information', 'profile');
+
+        return redirect()->route('profile.edit-form')->with('success', 'Profile updated successfully!');
     }
 
     /**
@@ -208,16 +217,17 @@ class UserProfileController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        // Update basic info
+        // Update name and sync with profile
+        $user->updateNameAndSync($request->first_name, $request->last_name);
+
+        // Update email
         $user->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
             'email' => $request->email,
         ]);
 
         // Update password if provided
         if ($request->password) {
-            if (!$request->current_password || !Hash::check($request->current_password, $user->password)) {
+            if (!$request->current_password || !Hash::check($request->current_password, $user->getAuthPassword())) {
                 return back()->withErrors(['current_password' => 'Current password is incorrect.']);
             }
             
@@ -225,6 +235,9 @@ class UserProfileController extends Controller
                 'password' => Hash::make($request->password),
             ]);
         }
+
+        // Log the activity
+        $user->logActivity('Updated account', 'User updated their account information', 'account');
 
         return redirect()->route('account.edit')->with('success', 'Account updated successfully!');
     }

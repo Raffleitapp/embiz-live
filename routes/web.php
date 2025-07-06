@@ -21,28 +21,28 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     // Dashboard Routes
-    Route::get('/dashboard/members', [DashboardController::class, 'members'])->name('dashboard.members');
-    Route::get('/dashboard/add-member', [DashboardController::class, 'addMember'])->name('dashboard.add-member');
-    Route::post('/dashboard/store-member', [DashboardController::class, 'storeMember'])->name('dashboard.store-member');
-    Route::post('/dashboard/generate-password', [DashboardController::class, 'generatePassword'])->name('dashboard.generate-password');
-    Route::put('/dashboard/users/{user}/role', [DashboardController::class, 'updateUserRole'])->name('dashboard.update-user-role');
-    Route::post('/dashboard/users/{user}/toggle-status', [DashboardController::class, 'toggleUserStatus'])->name('dashboard.toggle-user-status');
-    Route::delete('/dashboard/users/{user}', [DashboardController::class, 'deleteUser'])->name('dashboard.delete-user');
-    Route::get('/dashboard/search-members', [DashboardController::class, 'searchMembers'])->name('dashboard.search-members');
+    Route::get('/dashboard/members', [DashboardController::class, 'members'])->middleware('admin')->name('dashboard.members');
+    Route::get('/dashboard/add-member', [DashboardController::class, 'addMember'])->middleware('admin')->name('dashboard.add-member');
+    Route::post('/dashboard/store-member', [DashboardController::class, 'storeMember'])->middleware('admin')->name('dashboard.store-member');
+    Route::post('/dashboard/generate-password', [DashboardController::class, 'generatePassword'])->middleware('admin')->name('dashboard.generate-password');
+    Route::put('/dashboard/users/{user}/role', [DashboardController::class, 'updateUserRole'])->middleware('admin')->name('dashboard.update-user-role');
+    Route::post('/dashboard/users/{user}/toggle-status', [DashboardController::class, 'toggleUserStatus'])->middleware('admin')->name('dashboard.toggle-user-status');
+    Route::delete('/dashboard/users/{user}', [DashboardController::class, 'deleteUser'])->middleware('admin')->name('dashboard.delete-user');
+    Route::get('/dashboard/search-members', [DashboardController::class, 'searchMembers'])->middleware('admin')->name('dashboard.search-members');
     
     // Settings Routes
-    Route::get('/dashboard/settings', [DashboardController::class, 'settings'])->name('dashboard.settings');
-    Route::post('/dashboard/settings', [DashboardController::class, 'updateSettings'])->name('dashboard.update-settings');
+    Route::get('/dashboard/settings', [DashboardController::class, 'settings'])->middleware('admin')->name('dashboard.settings');
+    Route::post('/dashboard/settings', [DashboardController::class, 'updateSettings'])->middleware('admin')->name('dashboard.update-settings');
     
     // Activity Logs Routes
-    Route::get('/dashboard/activity-logs', [DashboardController::class, 'activityLogs'])->name('dashboard.activity-logs');
+    Route::get('/dashboard/activity-logs', [DashboardController::class, 'activityLogs'])->middleware('admin')->name('dashboard.activity-logs');
     
     // Roles & Permissions Routes
-    Route::get('/dashboard/roles-permissions', [DashboardController::class, 'rolesPermissions'])->name('dashboard.roles-permissions');
-    Route::post('/dashboard/roles/create', [DashboardController::class, 'createRole'])->name('dashboard.create-role');
-    Route::get('/dashboard/roles/{role}/edit', [DashboardController::class, 'editRole'])->name('dashboard.edit-role');
-    Route::put('/dashboard/roles/{role}/update', [DashboardController::class, 'updateRole'])->name('dashboard.update-role');
-    Route::post('/dashboard/roles/{role}/delete', [DashboardController::class, 'deleteRole'])->name('dashboard.delete-role');
+    Route::get('/dashboard/roles-permissions', [DashboardController::class, 'rolesPermissions'])->middleware('admin')->name('dashboard.roles-permissions');
+    Route::post('/dashboard/roles/create', [DashboardController::class, 'createRole'])->middleware('admin')->name('dashboard.create-role');
+    Route::get('/dashboard/roles/{role}/edit', [DashboardController::class, 'editRole'])->middleware('admin')->name('dashboard.edit-role');
+    Route::put('/dashboard/roles/{role}/update', [DashboardController::class, 'updateRole'])->middleware('admin')->name('dashboard.update-role');
+    Route::post('/dashboard/roles/{role}/delete', [DashboardController::class, 'deleteRole'])->middleware('admin')->name('dashboard.delete-role');
     
     // Support/Help Routes
     Route::get('/dashboard/support', [DashboardController::class, 'support'])->name('dashboard.support');
@@ -99,6 +99,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/messages/{message}', [MessageController::class, 'delete'])->name('messages.delete');
     Route::get('/messages/unread-count', [MessageController::class, 'getUnreadCount'])->name('messages.unread-count');
     Route::get('/messages/search', [MessageController::class, 'search'])->name('messages.search');
+    
+    // Investment Message Routes
+    Route::get('/messages/create-investment-broadcast', function () {
+        return view('messages.create-investment-broadcast');
+    })->middleware('admin')->name('messages.create-investment-broadcast-form');
+    Route::post('/messages/{message}/respond-investment', [MessageController::class, 'respondToInvestment'])->name('messages.respond-investment');
+    Route::put('/messages/{message}/update-investment-response', [MessageController::class, 'updateInvestmentResponse'])->name('messages.update-investment-response');
+    Route::get('/messages/{message}/investment-responses', [MessageController::class, 'getInvestmentResponses'])->middleware('admin')->name('messages.investment-responses');
+    Route::post('/messages/create-investment-broadcast', [MessageController::class, 'createInvestmentBroadcast'])->middleware('admin')->name('messages.create-investment-broadcast');
 });
 
 

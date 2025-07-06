@@ -17,21 +17,72 @@ class MessageController extends Controller
     {
         $user = Auth::user();
         
-        // Get recent conversations
-        $conversations = Message::where('sender_id', $user->id)
-                               ->orWhere('recipient_id', $user->id)
-                               ->with(['sender', 'recipient'])
-                               ->orderBy('created_at', 'desc')
-                               ->take(10)
-                               ->get()
-                               ->groupBy('thread_id');
+        if ($user->isAdmin()) {
+            // For admins, show all messages but group broadcast messages by thread_id
+            $messages = collect();
+            
+            // Get all messages ordered by created_at
+            $allMessages = Message::with(['sender', 'recipient', 'interests'])
+                                 ->orderBy('created_at', 'desc')
+                                 ->get();
+            
+            // Group messages by thread_id for broadcast messages, keep others as-is
+            $groupedMessages = $allMessages->groupBy('thread_id');
+            
+            foreach ($groupedMessages as $threadId => $threadMessages) {
+                $firstMessage = $threadMessages->first();
+                
+                // If it's a broadcast message (same sender, same content, multiple recipients)
+                if ($threadMessages->count() > 1 && 
+                    $threadMessages->pluck('sender_id')->unique()->count() === 1 &&
+                    in_array($firstMessage->message_type, ['investment', 'announcement'])) {
+                    
+                    // Create a representative message for the broadcast
+                    $broadcastMessage = $firstMessage->replicate();
+                    $broadcastMessage->id = $firstMessage->id;
+                    $broadcastMessage->recipient_count = $threadMessages->count();
+                    $broadcastMessage->all_recipients = $threadMessages->pluck('recipient.name')->toArray();
+                    $broadcastMessage->is_broadcast = true;
+                    
+                    $messages->push($broadcastMessage);
+                } else {
+                    // Add individual messages
+                    $messages = $messages->merge($threadMessages);
+                }
+            }
+            
+            // Sort by created_at and paginate manually
+            $messages = $messages->sortByDesc('created_at');
+            $perPage = 20;
+            $currentPage = request('page', 1);
+            $currentPageItems = $messages->slice(($currentPage - 1) * $perPage, $perPage)->values();
+            
+            $messages = new \Illuminate\Pagination\LengthAwarePaginator(
+                $currentPageItems,
+                $messages->count(),
+                $perPage,
+                $currentPage,
+                [
+                    'path' => request()->url(),
+                    'pageName' => 'page',
+                ]
+            );
+            
+        } else {
+            // For regular users, show messages they sent or received
+            $messages = Message::where('sender_id', $user->id)
+                              ->orWhere('recipient_id', $user->id)
+                              ->with(['sender', 'recipient', 'interests'])
+                              ->orderBy('created_at', 'desc')
+                              ->paginate(20);
+        }
         
         // Get unread messages count
         $unreadCount = Message::where('recipient_id', $user->id)
                              ->unread()
                              ->count();
         
-        return view('messages', compact('conversations', 'unreadCount'));
+        return view('messages.index', compact('messages', 'unreadCount'));
     }
 
     /**
@@ -256,5 +307,182 @@ class MessageController extends Controller
                           ->paginate(20);
 
         return response()->json($messages);
+    }
+
+    /**
+     * Respond to an investment message.
+     */
+    public function respondToInvestment(Request $request, Message $message)
+    {
+        $request->validate([
+            'response_type' => 'required|in:interested,not_interested',
+            'interest_level' => 'nullable|in:high,medium,low',
+            'comments' => 'nullable|string|max:1000',
+            'investment_amount' => 'nullable|numeric|min:0',
+        ]);
+
+        $user = Auth::user();
+
+        // Check if user has already responded
+        if ($user->hasRespondedToMessage($message->id)) {
+            return response()->json(['error' => 'You have already responded to this message.'], 400);
+        }
+
+        // Create the response
+        $response = $user->messageInterests()->create([
+            'message_id' => $message->id,
+            'response_type' => $request->response_type,
+            'interest_level' => $request->interest_level,
+            'comments' => $request->comments,
+            'investment_amount' => $request->investment_amount,
+            'responded_at' => now(),
+        ]);
+
+        // Log the activity
+        $user->logActivity(
+            'Responded to investment message',
+            'User responded to investment message: ' . $message->subject,
+            'investment_response'
+        );
+
+        return response()->json([
+            'message' => 'Response submitted successfully!',
+            'data' => $response
+        ]);
+    }
+
+    /**
+     * Update investment response.
+     */
+    public function updateInvestmentResponse(Request $request, Message $message)
+    {
+        $request->validate([
+            'response_type' => 'required|in:interested,not_interested',
+            'interest_level' => 'nullable|in:high,medium,low',
+            'comments' => 'nullable|string|max:1000',
+            'investment_amount' => 'nullable|numeric|min:0',
+        ]);
+
+        $user = Auth::user();
+        $response = $user->getMessageResponse($message->id);
+
+        if (!$response) {
+            return response()->json(['error' => 'No response found to update.'], 404);
+        }
+
+        $response->update([
+            'response_type' => $request->response_type,
+            'interest_level' => $request->interest_level,
+            'comments' => $request->comments,
+            'investment_amount' => $request->investment_amount,
+            'responded_at' => now(),
+        ]);
+
+        return response()->json([
+            'message' => 'Response updated successfully!',
+            'data' => $response
+        ]);
+    }
+
+    /**
+     * Get investment message responses (Admin only).
+     */
+    public function getInvestmentResponses(Message $message)
+    {
+        $user = Auth::user();
+        
+        if (!$user->isAdmin()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $responses = $message->interests()
+                           ->with(['user', 'user.profile'])
+                           ->orderBy('responded_at', 'desc')
+                           ->get();
+
+        $stats = $message->getResponseStats();
+
+        return response()->json([
+            'responses' => $responses,
+            'stats' => $stats
+        ]);
+    }
+
+    /**
+     * Create broadcast investment message (Admin only).
+     */
+    public function createInvestmentBroadcast(Request $request)
+    {
+        $user = Auth::user();
+        
+        if (!$user->isAdmin()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $request->validate([
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:10000',
+            'target_audience' => 'required|in:all,founding_members,investors',
+        ]);
+
+        // Get target users
+        $targetUsers = $this->getTargetUsers($request->target_audience);
+
+        $messages = [];
+        $threadId = Str::uuid();
+
+        foreach ($targetUsers as $targetUser) {
+            $message = Message::create([
+                'sender_id' => $user->id,
+                'recipient_id' => $targetUser->id,
+                'subject' => $request->subject,
+                'message' => $request->message,
+                'message_type' => 'investment',
+                'thread_id' => $threadId,
+                'is_important' => true,
+            ]);
+
+            $messages[] = $message;
+        }
+
+        // Log the activity
+        $user->logActivity(
+            'Created investment broadcast',
+            'Created investment broadcast: ' . $request->subject . ' to ' . count($targetUsers) . ' users',
+            'investment_broadcast'
+        );
+
+        return response()->json([
+            'message' => 'Investment broadcast sent successfully!',
+            'sent_to' => count($targetUsers),
+            'data' => $messages
+        ]);
+    }
+
+    /**
+     * Get target users based on audience type.
+     */
+    private function getTargetUsers($audience)
+    {
+        $query = User::query();
+
+        switch ($audience) {
+            case 'founding_members':
+                $query->whereHas('profile', function ($q) {
+                    $q->where('is_founding_member', true);
+                });
+                break;
+            case 'investors':
+                $query->whereHas('profile', function ($q) {
+                    $q->where('profile_type', 'investor');
+                });
+                break;
+            case 'all':
+            default:
+                // No additional filtering for 'all'
+                break;
+        }
+
+        return $query->get();
     }
 }
