@@ -16,6 +16,8 @@ class Message extends Model
         'subject',
         'message',
         'message_type',
+        'investment_amount',
+        'investment_currency',
         'read_at',
         'is_important',
         'is_archived',
@@ -25,9 +27,12 @@ class Message extends Model
 
     protected $casts = [
         'read_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
         'is_important' => 'boolean',
         'is_archived' => 'boolean',
         'attachments' => 'array',
+        'investment_amount' => 'decimal:2',
     ];
 
     /**

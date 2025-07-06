@@ -90,6 +90,11 @@
                                         <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                                             <i class="bx bx-broadcast mr-1"></i>Investment
                                         </span>
+                                        @if($message->investment_amount)
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                {{ $message->investment_currency ?? 'USD' }} {{ number_format($message->investment_amount, 2) }}
+                                            </span>
+                                        @endif
                                     @endif
                                     @if($message->is_important)
                                         <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">

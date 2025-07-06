@@ -423,6 +423,8 @@ class MessageController extends Controller
             'subject' => 'required|string|max:255',
             'message' => 'required|string|max:10000',
             'target_audience' => 'required|in:all,founding_members,investors',
+            'investment_amount' => 'nullable|numeric|min:0',
+            'investment_currency' => 'nullable|string|max:3',
         ]);
 
         // Get target users
@@ -438,6 +440,8 @@ class MessageController extends Controller
                 'subject' => $request->subject,
                 'message' => $request->message,
                 'message_type' => 'investment',
+                'investment_amount' => $request->investment_amount,
+                'investment_currency' => $request->investment_currency ?? 'USD',
                 'thread_id' => $threadId,
                 'is_important' => true,
             ]);
