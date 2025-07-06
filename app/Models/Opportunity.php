@@ -34,7 +34,6 @@ class Opportunity extends Model
     ];
 
     protected $casts = [
-        'requirements' => 'array',
         'amount' => 'decimal:2',
         'deadline' => 'datetime',
         'is_featured' => 'boolean',

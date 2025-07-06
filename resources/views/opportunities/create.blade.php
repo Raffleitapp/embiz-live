@@ -191,11 +191,21 @@
                             <i class="bx bx-check-square text-gray-400 mr-1"></i>
                             Requirements
                         </label>
+                        <div class="mb-2">
+                            <p class="text-sm text-gray-600">
+                                <i class="bx bx-info-circle text-teal-500 mr-1"></i>
+                                Enter each requirement on a new line. They will be displayed as separate items.
+                            </p>
+                        </div>
                         <textarea id="requirements" 
                                   name="requirements" 
-                                  rows="4"
-                                  placeholder="List any specific requirements, qualifications, or criteria that applicants should meet..."
+                                  rows="5"
+                                  placeholder="Enter requirements (one per line):&#10;• Minimum 5 years of experience&#10;• Bachelor's degree in relevant field&#10;• Strong communication skills&#10;• Portfolio of previous work"
                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 placeholder-gray-400">{{ old('requirements') }}</textarea>
+                        <div class="mt-2 text-sm text-gray-500">
+                            <i class="bx bx-lightbulb text-amber-500 mr-1"></i>
+                            <strong>Tip:</strong> Use bullet points (•) or dashes (-) at the beginning of each line for better formatting.
+                        </div>
                     </div>
 
                     <div>

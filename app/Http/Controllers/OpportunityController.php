@@ -77,7 +77,7 @@ class OpportunityController extends Controller
             'location' => 'nullable|string|max:255',
             'industry' => 'nullable|string|max:255',
             'stage' => 'nullable|in:idea,startup,growth,established',
-            'requirements' => 'nullable|array',
+            'requirements' => 'nullable|string|max:2000',
             'contact_email' => 'nullable|email|max:255',
             'contact_phone' => 'nullable|string|max:20',
             'website' => 'nullable|url|max:255',
@@ -102,7 +102,7 @@ class OpportunityController extends Controller
 
         $opportunity = Opportunity::create($data);
 
-        return redirect()->route('opportunities.show', $opportunity)->with('success', 'Opportunity created successfully!');
+        return redirect()->route('dashboard.opportunities.show', $opportunity)->with('success', 'Opportunity created successfully!');
     }
 
     /**
@@ -146,7 +146,7 @@ class OpportunityController extends Controller
             'location' => 'nullable|string|max:255',
             'industry' => 'nullable|string|max:255',
             'stage' => 'nullable|in:idea,startup,growth,established',
-            'requirements' => 'nullable|array',
+            'requirements' => 'nullable|string|max:2000',
             'contact_email' => 'nullable|email|max:255',
             'contact_phone' => 'nullable|string|max:20',
             'website' => 'nullable|url|max:255',

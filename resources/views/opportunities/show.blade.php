@@ -162,7 +162,22 @@
                             Requirements
                         </h3>
                         <div class="prose max-w-none">
-                            <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $opportunity->requirements }}</p>
+                            @php
+                                $requirements = explode("\n", $opportunity->requirements);
+                                $requirements = array_filter(array_map('trim', $requirements));
+                            @endphp
+                            @if(count($requirements) > 1)
+                                <ul class="space-y-2">
+                                    @foreach($requirements as $requirement)
+                                        <li class="flex items-start">
+                                            <i class="bx bx-check text-teal-500 mr-2 mt-1 flex-shrink-0"></i>
+                                            <span class="text-gray-700">{{ ltrim($requirement, '•-*') }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $opportunity->requirements }}</p>
+                            @endif
                         </div>
                     </div>
                 @endif
