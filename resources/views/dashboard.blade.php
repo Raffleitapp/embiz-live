@@ -3,6 +3,7 @@
 @section('page-title', 'Dashboard')
 
 @section('header-actions')
+    @if(auth()->user()->isAdmin())
     <div class="flex items-center space-x-3">
         <div class="relative">
             <i class='bx bx-search absolute left-3 top-2.5 text-gray-400 text-sm'></i>
@@ -11,6 +12,7 @@
                 id="searchInput">
         </div>
     </div>
+    @endif
 @endsection
 
 @section('content')
@@ -29,6 +31,7 @@
         </div>
 
         <!-- Stats Cards -->
+        @if(auth()->user()->isAdmin())
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
                 <div class="flex items-center justify-between">
@@ -90,8 +93,10 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <!-- Charts and Analytics Row -->
+        @if(auth()->user()->isAdmin())
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <!-- User Growth Chart -->
             <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
@@ -165,8 +170,10 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <!-- Quick Actions -->
+        @if(auth()->user()->isAdmin())
         <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
             <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -215,8 +222,10 @@
                 </a>
             </div>
         </div>
+        @endif
 
         <!-- Recent Users -->
+        @if(auth()->user()->isAdmin())
         <div class="bg-white rounded-lg shadow-sm">
             <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
                 <div class="flex items-center justify-between">
@@ -340,6 +349,7 @@
                 </table>
             </div>
         </div>
+        @endif
     </div>
 @endsection
 

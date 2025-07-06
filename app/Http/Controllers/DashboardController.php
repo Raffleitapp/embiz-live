@@ -23,22 +23,44 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $totalUsers = User::count();
-        $activeUsers = User::whereHas('profile', function ($query) {
-            $query->where('is_active', true);
-        })->count();
-        $foundingMembers = User::whereHas('profile', function ($query) {
-            $query->where('is_founding_member', true);
-        })->count();
+        $user = Auth::user();
         
-        // Get opportunities count
-        $totalOpportunities = \App\Models\Opportunity::count();
-        $activeOpportunities = \App\Models\Opportunity::where('status', 'active')->count();
-        
-        // Get recent users for the table (limit to 10 for dashboard)
-        $users = User::with('profile')->orderBy('created_at', 'desc')->limit(10)->get();
-        
-        return view('dashboard', compact('totalUsers', 'activeUsers', 'foundingMembers', 'totalOpportunities', 'activeOpportunities', 'users'));
+        if ($user->isAdmin()) {
+            // Admin dashboard data
+            $totalUsers = User::count();
+            $activeUsers = User::whereHas('profile', function ($query) {
+                $query->where('is_active', true);
+            })->count();
+            $foundingMembers = User::whereHas('profile', function ($query) {
+                $query->where('is_founding_member', true);
+            })->count();
+            
+            // Get opportunities count
+            $totalOpportunities = \App\Models\Opportunity::count();
+            $activeOpportunities = \App\Models\Opportunity::where('status', 'active')->count();
+            
+            // Get recent users for the table (limit to 10 for dashboard)
+            $users = User::with('profile')->orderBy('created_at', 'desc')->limit(10)->get();
+            
+            return view('dashboard', compact('totalUsers', 'activeUsers', 'foundingMembers', 'totalOpportunities', 'activeOpportunities', 'users'));
+        } else {
+            // Regular user dashboard data
+            $userConnections = 0; // Will be implemented when Connection model is ready
+            $userMessages = \App\Models\Message::where('recipient_id', $user->id)->count();
+            $unreadMessages = \App\Models\Message::where('recipient_id', $user->id)->whereNull('read_at')->count();
+            
+            // Get user's opportunities (if they have any)
+            $userOpportunities = \App\Models\Opportunity::where('user_id', $user->id)->count();
+            
+            // Get recent activities for the user
+            $recentActivities = ActivityLog::where('user_id', $user->id)
+                                          ->with('user')
+                                          ->orderBy('created_at', 'desc')
+                                          ->limit(5)
+                                          ->get();
+            
+            return view('dashboard-user', compact('userConnections', 'userMessages', 'unreadMessages', 'userOpportunities', 'recentActivities'));
+        }
     }
 
     /**
