@@ -7,40 +7,40 @@
 @endsection
 
 @section('header-actions')
-<div class="flex space-x-3">
-    <a href="{{ route('dashboard.opportunities') }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium transition-colors duration-200">
-        <i class="bx bx-arrow-back mr-2"></i>Back to Opportunities
+<div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+    <a href="{{ route('dashboard.opportunities') }}" class="px-3 sm:px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-xs sm:text-sm font-medium transition-colors duration-200">
+        <i class="bx bx-arrow-back mr-1 sm:mr-2"></i>Back to Opportunities
     </a>
     @if(auth()->check() && auth()->user()->id === $opportunity->user_id)
-        <a href="{{ route('dashboard.opportunities.edit', $opportunity) }}" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium transition-colors duration-200">
-            <i class="bx bx-edit mr-2"></i>Edit
+        <a href="{{ route('dashboard.opportunities.edit', $opportunity) }}" class="px-3 sm:px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-xs sm:text-sm font-medium transition-colors duration-200">
+            <i class="bx bx-edit mr-1 sm:mr-2"></i>Edit
         </a>
     @endif
 </div>
 @endsection
 
 @section('content')
-<div class="p-3 sm:p-4 lg:p-6">
+<div class="p-2 sm:p-3 md:p-4 lg:p-6">
     <div class="max-w-4xl mx-auto">
         <!-- Header Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+        <div class="bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-4 sm:mb-6">
             @if($opportunity->image)
                 <div class="relative">
-                    <img src="{{ asset('storage/' . $opportunity->image) }}" alt="{{ $opportunity->title }}" class="w-full h-64 sm:h-80 object-cover">
+                    <img src="{{ asset('storage/' . $opportunity->image) }}" alt="{{ $opportunity->title }}" class="w-full h-48 sm:h-64 md:h-80 object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                 </div>
             @else
-                <div class="w-full h-64 sm:h-80 bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center">
+                <div class="w-full h-48 sm:h-64 md:h-80 bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center">
                     <div class="text-center text-white">
-                        <i class="bx bx-briefcase text-6xl mb-4 opacity-80"></i>
-                        <p class="text-xl font-medium">{{ ucfirst($opportunity->type) }} Opportunity</p>
+                        <i class="bx bx-briefcase text-4xl sm:text-5xl md:text-6xl mb-2 sm:mb-4 opacity-80"></i>
+                        <p class="text-lg sm:text-xl font-medium">{{ ucfirst($opportunity->type) }} Opportunity</p>
                     </div>
                 </div>
             @endif
 
-            <div class="p-6 sm:p-8">
+            <div class="p-4 sm:p-6 lg:p-8">
                 <!-- Badges -->
-                <div class="flex flex-wrap items-center gap-2 mb-6">
+                <div class="flex flex-wrap items-center gap-2 mb-4 sm:mb-6">
                     @php
                         $typeColors = [
                             'investment' => 'bg-emerald-100 text-emerald-700',
@@ -52,35 +52,35 @@
                         ];
                         $colorClass = $typeColors[$opportunity->type] ?? $typeColors['default'];
                     @endphp
-                    <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium {{ $colorClass }}">
-                        <i class="bx bx-category mr-1.5"></i>
+                    <span class="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium {{ $colorClass }}">
+                        <i class="bx bx-category mr-1 sm:mr-1.5"></i>
                         {{ ucfirst($opportunity->type) }}
                     </span>
                     
                     @if($opportunity->is_featured)
-                        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-yellow-100 text-yellow-700">
-                            <i class="bx bx-star mr-1.5"></i>
+                        <span class="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium bg-yellow-100 text-yellow-700">
+                            <i class="bx bx-star mr-1 sm:mr-1.5"></i>
                             Featured
                         </span>
                     @endif
                     
-                    <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
-                        <i class="bx bx-signal-{{ $opportunity->status === 'active' ? '5' : '2' }} mr-1.5"></i>
+                    <span class="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium bg-gray-100 text-gray-700">
+                        <i class="bx bx-signal-{{ $opportunity->status === 'active' ? '5' : '2' }} mr-1 sm:mr-1.5"></i>
                         {{ ucfirst($opportunity->status) }}
                     </span>
                 </div>
 
                 <!-- Title -->
-                <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">{{ $opportunity->title }}</h1>
+                <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">{{ $opportunity->title }}</h1>
 
                 <!-- Amount -->
                 @if($opportunity->amount)
-                    <div class="mb-6 p-4 bg-gradient-to-r from-teal-50 to-teal-100 rounded-xl">
+                    <div class="mb-4 sm:mb-6 p-3 sm:p-4 bg-gradient-to-r from-teal-50 to-teal-100 rounded-lg sm:rounded-xl">
                         <div class="flex items-center">
-                            <i class="bx bx-dollar-circle text-teal-600 text-2xl mr-3"></i>
+                            <i class="bx bx-dollar-circle text-teal-600 text-xl sm:text-2xl mr-2 sm:mr-3"></i>
                             <div>
-                                <p class="text-sm font-medium text-teal-700">Opportunity Value</p>
-                                <span class="text-3xl font-bold text-teal-800">
+                                <p class="text-xs sm:text-sm font-medium text-teal-700">Opportunity Value</p>
+                                <span class="text-xl sm:text-2xl md:text-3xl font-bold text-teal-800">
                                     {{ $opportunity->currency ?? '$' }}{{ number_format($opportunity->amount) }}
                                 </span>
                             </div>
@@ -89,47 +89,47 @@
                 @endif
 
                 <!-- Key Details -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                    <div class="flex items-center p-4 bg-gray-50 rounded-lg">
-                        <i class="bx bx-map text-teal-600 text-xl mr-3"></i>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                    <div class="flex items-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+                        <i class="bx bx-map text-teal-600 text-lg sm:text-xl mr-2 sm:mr-3"></i>
                         <div>
-                            <p class="text-sm text-gray-600">Location</p>
-                            <p class="font-semibold text-gray-900">{{ $opportunity->location ?? 'Remote' }}</p>
+                            <p class="text-xs sm:text-sm text-gray-600">Location</p>
+                            <p class="text-sm sm:text-base font-semibold text-gray-900">{{ $opportunity->location ?? 'Remote' }}</p>
                         </div>
                     </div>
                     
                     @if($opportunity->industry)
-                        <div class="flex items-center p-4 bg-gray-50 rounded-lg">
-                            <i class="bx bx-building text-teal-600 text-xl mr-3"></i>
+                        <div class="flex items-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+                            <i class="bx bx-building text-teal-600 text-lg sm:text-xl mr-2 sm:mr-3"></i>
                             <div>
-                                <p class="text-sm text-gray-600">Industry</p>
-                                <p class="font-semibold text-gray-900">{{ $opportunity->industry }}</p>
+                                <p class="text-xs sm:text-sm text-gray-600">Industry</p>
+                                <p class="text-sm sm:text-base font-semibold text-gray-900">{{ $opportunity->industry }}</p>
                             </div>
                         </div>
                     @endif
                     
-                    <div class="flex items-center p-4 bg-gray-50 rounded-lg">
-                        <i class="bx bx-time text-teal-600 text-xl mr-3"></i>
+                    <div class="flex items-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+                        <i class="bx bx-time text-teal-600 text-lg sm:text-xl mr-2 sm:mr-3"></i>
                         <div>
-                            <p class="text-sm text-gray-600">Posted</p>
-                            <p class="font-semibold text-gray-900">{{ $opportunity->created_at->diffForHumans() }}</p>
+                            <p class="text-xs sm:text-sm text-gray-600">Posted</p>
+                            <p class="text-sm sm:text-base font-semibold text-gray-900">{{ $opportunity->created_at->diffForHumans() }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Owner Actions -->
                 @if(auth()->check() && auth()->user()->id === $opportunity->user_id)
-                    <div class="border-t border-gray-200 pt-6">
-                        <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="border-t border-gray-200 pt-4 sm:pt-6">
+                        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
                             <a href="{{ route('dashboard.opportunities.edit', $opportunity) }}" 
-                               class="inline-flex items-center justify-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 font-medium">
+                               class="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 font-medium text-sm sm:text-base">
                                 <i class="bx bx-edit mr-2"></i>Edit Opportunity
                             </a>
                             <form method="POST" action="{{ route('dashboard.opportunities.destroy', $opportunity) }}" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" 
-                                        class="inline-flex items-center justify-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium" 
+                                        class="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium text-sm sm:text-base" 
                                         onclick="return confirm('Are you sure you want to delete this opportunity?')">
                                     <i class="bx bx-trash mr-2"></i>Delete Opportunity
                                 </button>
@@ -140,17 +140,17 @@
             </div>
         </div>
         <!-- Content Sections -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             <!-- Main Content -->
-            <div class="lg:col-span-2 space-y-6">
+            <div class="lg:col-span-2 space-y-4 sm:space-y-6">
                 <!-- Description -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <div class="bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
+                    <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4 flex items-center">
                         <i class="bx bx-text text-teal-600 mr-2"></i>
                         Description
                     </h3>
                     <div class="prose max-w-none">
-                        <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $opportunity->description }}</p>
+                        <p class="text-sm sm:text-base text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $opportunity->description }}</p>
                     </div>
                 </div>
 

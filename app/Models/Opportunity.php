@@ -22,6 +22,7 @@ class Opportunity extends Model
         'industry',
         'stage',
         'requirements',
+        'contact_info',
         'contact_email',
         'contact_phone',
         'website',

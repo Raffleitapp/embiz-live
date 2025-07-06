@@ -78,18 +78,14 @@ class OpportunityController extends Controller
             'industry' => 'nullable|string|max:255',
             'stage' => 'nullable|in:idea,startup,growth,established',
             'requirements' => 'nullable|string|max:2000',
-            'contact_email' => 'nullable|email|max:255',
-            'contact_phone' => 'nullable|string|max:20',
-            'website' => 'nullable|url|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'contact_info' => 'nullable|string|max:1000',
             'deadline' => 'nullable|date|after:today',
             'status' => 'nullable|in:active,paused,closed,draft',
         ]);
 
         $data = $request->only([
             'title', 'description', 'type', 'amount', 'currency', 'location',
-            'industry', 'stage', 'requirements', 'contact_email', 'contact_phone',
-            'website', 'deadline', 'status'
+            'industry', 'stage', 'requirements', 'contact_info', 'deadline', 'status'
         ]);
 
         $data['user_id'] = Auth::id();
@@ -125,7 +121,10 @@ class OpportunityController extends Controller
      */
     public function edit(Opportunity $opportunity)
     {
-        $this->authorize('update', $opportunity);
+        // Check if user owns the opportunity
+        if (Auth::id() !== $opportunity->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
         
         return view('opportunities.edit', compact('opportunity'));
     }
@@ -135,7 +134,10 @@ class OpportunityController extends Controller
      */
     public function update(Request $request, Opportunity $opportunity)
     {
-        $this->authorize('update', $opportunity);
+        // Check if user owns the opportunity
+        if (Auth::id() !== $opportunity->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -147,18 +149,20 @@ class OpportunityController extends Controller
             'industry' => 'nullable|string|max:255',
             'stage' => 'nullable|in:idea,startup,growth,established',
             'requirements' => 'nullable|string|max:2000',
+            'contact_info' => 'nullable|string|max:1000',
             'contact_email' => 'nullable|email|max:255',
             'contact_phone' => 'nullable|string|max:20',
             'website' => 'nullable|url|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'deadline' => 'nullable|date|after:today',
             'status' => 'nullable|in:active,paused,closed,draft',
+            'is_featured' => 'boolean',
         ]);
 
         $data = $request->only([
             'title', 'description', 'type', 'amount', 'currency', 'location',
-            'industry', 'stage', 'requirements', 'contact_email', 'contact_phone',
-            'website', 'deadline', 'status'
+            'industry', 'stage', 'requirements', 'contact_info', 'contact_email', 'contact_phone',
+            'website', 'deadline', 'status', 'is_featured'
         ]);
 
         // Handle image upload
@@ -174,7 +178,7 @@ class OpportunityController extends Controller
 
         $opportunity->update($data);
 
-        return redirect()->route('opportunities.show', $opportunity)->with('success', 'Opportunity updated successfully!');
+        return redirect()->route('dashboard.opportunities.show', $opportunity)->with('success', 'Opportunity updated successfully!');
     }
 
     /**
@@ -182,7 +186,10 @@ class OpportunityController extends Controller
      */
     public function destroy(Opportunity $opportunity)
     {
-        $this->authorize('delete', $opportunity);
+        // Check if user owns the opportunity
+        if (Auth::id() !== $opportunity->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
 
         // Delete associated image
         if ($opportunity->image) {
@@ -191,7 +198,7 @@ class OpportunityController extends Controller
 
         $opportunity->delete();
 
-        return redirect()->route('opportunities.index')->with('success', 'Opportunity deleted successfully!');
+        return redirect()->route('dashboard.opportunities.index')->with('success', 'Opportunity deleted successfully!');
     }
 
     /**
